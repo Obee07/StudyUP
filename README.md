@@ -1,4 +1,4 @@
-StudyUP
+<H1> StudyUP </H1>
 
 This is a course requirement for CS191/192 Software Engineering Courses of the Department of
 Computer Science, College of Engineering, University of the Philippines, Diliman under the guidance of
