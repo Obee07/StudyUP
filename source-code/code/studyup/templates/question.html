@@ -1,0 +1,449 @@
+{% extends 'base.html' %}
+
+{% block title %}
+StudyUP | Create Question
+{% endblock title %}
+
+{% block body %}
+<form id="qForm" action="" method="POST" class="needs-validation" novalidate>
+    {{ form.csrf_token }}
+    
+    <h1 class="jumbotron">Create Question</h1>
+    
+    <fieldset class="form-group">
+
+    <div class="row">
+        <div class="col-2"></div>
+    
+    <div class="col-8">
+    <div class="form-group">
+        
+        <h3>Course</h3>
+            {{form.course_id(class="form-control")}}
+            
+
+        <h3>Unit </h3>
+
+        <div class="btn-group-lg btn-group-toggle">
+            {% for option in form.unit_no %}
+            {% if loop.index == 1 %}
+                {{ option(class="hideRadioBtn") }} {{option.label(class="btn btn-danger hover-hand", 
+                id="u_1", onclick="toggle('1')", id="label_unit_no-0")}}
+            {% endif %}
+            {% if loop.index == 2 %}
+                {{ option(class="hideRadioBtn") }} {{option.label(class="btn btn-danger hover-hand", 
+                id="u_2", onclick="toggle('2')", id="label_unit_no-1")}}               
+            {% endif %}
+            {% if loop.index == 3 %}
+                {{ option(class="hideRadioBtn") }} {{option.label(class="btn btn-danger hover-hand", 
+                id="u_3", onclick="toggle('3')", id="label_unit_no-2")}}
+            {% endif %}
+            
+            {% endfor %}    
+        
+            <div id="unit-error" class="invalid-feedback">Please Select a unit</div>
+            
+        </div>
+
+        
+
+       
+        
+    </div>
+
+    <div class="form-group">
+        <h3>Topic</h3>
+       
+        {{form.topic_no(class="form-control", id="options", disabled=True)}}
+        
+    </div>
+
+    <div class="form-group">
+       <h3>Add Picture</h3>
+        {{form.picture(class="form-control")}}
+       
+    </div>
+
+    <div class="form-group">
+        <h3>Question</h3>
+    {{form.body(placeholder="Question", class="form-control", autocomplete="off")}}
+   
+    </div>
+    <h3>Choices</h3>
+    {% for opt in form.solution_id %}
+
+        {% if loop.index == 1 %}
+
+        <div class="form-group d-flex">
+            {{ opt(class="hideRadioBtn") }} {{opt.label(class="btn-sm btn-secondary mr-3 mt-1 hover-hand", id="c_1", onclick="toggle2('c1')")}}
+            {{form.choice_1(placeholder="Choice 1", class="form-control", autocomplete="off", id="fc_1")}}
+            
+
+            
+            </div>
+        
+        {% endif %}
+
+        {% if loop.index == 2 %}
+        <div class="form-group d-flex">
+            {{ opt(class="hideRadioBtn") }} {{opt.label(class="btn-sm btn-secondary mr-3 mt-1 hover-hand", id="c_2", onclick="toggle2('c2')")}}
+            {{form.choice_2(placeholder="Choice 2", class="form-control", autocomplete="off", id="fc_2")}}
+            
+
+            
+            </div>
+        
+        {% endif %}
+
+        {% if loop.index == 3 %}
+        <div class="form-group d-flex">
+            {{ opt(class="hideRadioBtn") }} {{opt.label(class="btn-sm btn-secondary mr-3 mt-1 hover-hand", id="c_3", onclick="toggle2('c3')")}}
+            {{form.choice_3(placeholder="Choice 3", class="form-control", autocomplete="off", id="fc_3")}}
+            </div>
+        {% endif %}
+
+        {% if loop.index == 4 %}
+        <div class="form-group d-flex">
+            {{ opt(class="hideRadioBtn") }} {{opt.label(class="btn-sm btn-secondary mr-3 mt-1 hover-hand", id="c_4", onclick="toggle2('c4')")}}
+            {{form.choice_4(placeholder="Choice 4", class="form-control", autocomplete="off", id="fc_4")}}
+            </div>
+        {% endif %}
+        
+        
+       
+        {% endfor %}
+
+        <div id="choice-error" class="invalid-feedback">Please mark the correct answer</div>
+        
+        
+   
+    </fieldset>
+
+    <div class="d-flex justify-content-md-center">
+    
+
+    <button type="button" class="btn btn-danger mr-5" data-toggle="modal" data-target="#Modal">
+        Cancel
+      </button>
+    {{form.submit(class="btn btn-primary")}}
+    </div>
+</form>
+</div>
+
+
+
+<div class="col-2"></div>
+</div>
+
+
+  
+  
+  <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ModalLabel">Are you sure you want to exit question creation?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Data that you have entered will not be saved.
+        </div>
+        <div class="modal-footer">
+          
+          <a class="btn btn-danger" href="{{url_for('main.index')}}">Yes</a>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock body %}
+
+  {% block scripts %}
+  
+<script>
+    //Bootstrap Client-Side Validation
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        
+        var forms = document.getElementsByClassName('needs-validation');
+        
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+            
+        }, false);
+        });
+    }, false);
+    })();
+
+    let unitErrorMsg = document.getElementById('unit-error')
+    let choiceErrorMsg = document.getElementById('choice-error')
+
+    let q_form = document.getElementById('qForm')
+    q_form.addEventListener('submit', (event) => {
+        if ($('input[name=unit_no]:checked').length > 0) { 
+            
+        } else {
+            unitErrorMsg.classList.add('d-block')  
+            event.preventDefault()
+            event.stopPropagation()
+        }
+    })
+
+    q_form.addEventListener('change', () => {
+        if ($('input[name=unit_no]:checked').length > 0) {  
+            unitErrorMsg.classList.remove('d-block')
+        } 
+    })
+
+    q_form.addEventListener('submit', () => {
+        if ($('input[name=solution_id]:checked').length > 0) { 
+            
+        } else {
+            choiceErrorMsg.classList.add('d-block')  
+            event.preventDefault()
+            event.stopPropagation()
+        }
+    })
+
+    q_form.addEventListener('change', () => {
+        if ($('input[name=solution_id]:checked').length > 0) {  
+            choiceErrorMsg.classList.remove('d-block')
+        } 
+    })
+    
+    let label_1 = document.getElementById('label_unit_no-0')
+    let label_2 = document.getElementById('label_unit_no-1')
+    let label_3 = document.getElementById('label_unit_no-2')
+    let u1 = document.getElementById('u_1')
+    let u2 = document.getElementById('u_2')
+    let u3 = document.getElementById('u_3')
+    let optionMenu = document.getElementById('options')
+
+    //Modal popup for exit question creation
+    let exitClick = document.getElementsByClassName('click-exit')
+    for (let i = 0; i < exitClick.length; i++) {
+        exitClick[i].addEventListener("mouseenter", function() {
+            $('#Modal').modal('toggle')
+        })
+    }
+
+// Unit Buttons
+  function toggle(num) {
+      if (num === '1') {
+          label_1.classList.add("active")
+          label_2.classList.remove("active")
+          label_3.classList.remove("active")
+          optionMenu.disabled = false
+        
+        fetch('/topic' + '/1').then(function(response) { 
+            response.json().then(function(data) {
+                let optionHTML = ''
+                let currChapNo = 1
+                let hasPrinted = false
+                for (let topic of data.topics) {
+                    if (topic.chapNo != currChapNo) {
+                        currChapNo += 1
+                        hasPrinted = false
+                    }
+                    if (hasPrinted) {
+                    } else {
+                        optionHTML += '<optgroup label = "Chapter ' + currChapNo + '">'
+                        hasPrinted = true
+                    }
+                    optionHTML += '<option class = "form-control" value="' + topic.id + '">'+ topic.name + '</option>'
+                }
+            optionMenu.innerHTML = optionHTML
+            })
+        });
+    
+    
+          
+      } else if (num === '2') {
+        label_2.classList.add("active")
+        label_1.classList.remove("active")
+        label_3.classList.remove("active")
+        optionMenu.disabled = false
+
+        fetch('/topic' + '/2').then(function(response) {
+            response.json().then(function(data) {
+                let optionHTML = ''
+                let currChapNo = 6
+                let hasPrinted = false
+                for (let topic of data.topics) {
+                    if (topic.chapNo != currChapNo) {
+                        currChapNo += 1
+                        hasPrinted = false
+                    }
+                    
+                    if (hasPrinted) {
+
+                    } else {
+                        optionHTML += '<optgroup label = "Chapter ' + currChapNo + '">'
+                        hasPrinted = true
+                    }
+                    optionHTML += '<option class = "form-control" value="' + topic.id + '">'+ topic.name + '</option>'
+                }
+            optionMenu.innerHTML = optionHTML
+            })
+            });
+      } else if (num === '3') {
+        label_3.classList.add("active")
+        label_1.classList.remove("active")
+        label_2.classList.remove("active")
+        optionMenu.disabled = false
+
+        fetch('/topic' + '/3').then(function(response) {
+            response.json().then(function(data) {
+                let optionHTML = ''
+                let currChapNo = 11
+                let hasPrinted = false
+                for (let topic of data.topics) {
+                    if (topic.chapNo != currChapNo) {
+                        currChapNo += 1
+                        hasPrinted = false
+                    }
+                    
+                    if (hasPrinted) {
+
+                    } else {
+                        optionHTML += '<optgroup label = "Chapter ' + currChapNo + '">'
+                        hasPrinted = true
+                    }
+                    optionHTML += '<option class = "form-control" value="' + topic.id + '">'+ topic.name + '</option>'
+                }
+            optionMenu.innerHTML = optionHTML
+            })
+            });
+      }
+    }
+
+let fc_1 = document.getElementById('fc_1')
+let fc_2 = document.getElementById('fc_2')
+let fc_3 = document.getElementById('fc_3')
+let fc_4 = document.getElementById('fc_4')
+    
+let c_1 = document.getElementById('c_1')
+let c_2 = document.getElementById('c_2')
+let c_3 = document.getElementById('c_3')
+let c_4 = document.getElementById('c_4')
+  
+//Choice Buttons
+    function toggle2(num) {
+        if (num === 'c1') {
+          c_1.classList.remove("btn-secondary")
+          c_1.classList.add("btn-success")
+          c_1.classList.add("active")
+        
+          fc_1.classList.add("green-bg")
+
+          fc_2.classList.remove("green-bg")
+          fc_3.classList.remove("green-bg")
+          fc_4.classList.remove("green-bg")
+          
+
+          c_2.classList.remove("active")
+          c_3.classList.remove("active")
+          c_4.classList.remove("active")
+          
+
+          c_2.classList.remove("btn-success")
+          c_3.classList.remove("btn-success")
+          c_4.classList.remove("btn-success")
+          
+
+          c_2.classList.add("btn-secondary")
+          c_3.classList.add("btn-secondary")
+          c_4.classList.add("btn-secondary")
+          
+          
+        } else if (num === 'c2') {
+            c_2.classList.remove("btn-secondary")
+            c_2.classList.add("btn-success")
+            c_2.classList.add("active")
+            fc_2.classList.add("green-bg")
+
+            fc_1.classList.remove("green-bg")
+            fc_3.classList.remove("green-bg")
+            fc_4.classList.remove("green-bg")
+            
+
+            c_1.classList.remove("active")
+            c_3.classList.remove("active")
+            c_4.classList.remove("active")
+            
+
+            c_1.classList.remove("btn-success")
+            c_3.classList.remove("btn-success")
+            c_4.classList.remove("btn-success")
+           
+
+            c_1.classList.add("btn-secondary")
+            c_3.classList.add("btn-secondary")
+            c_4.classList.add("btn-secondary")
+            
+        } else if (num === 'c3') {
+            c_3.classList.remove("btn-secondary")
+            c_3.classList.add("btn-success")
+            c_3.classList.add("active")
+            fc_3.classList.add("green-bg")
+
+            fc_1.classList.remove("green-bg")
+            fc_2.classList.remove("green-bg")
+            fc_4.classList.remove("green-bg")
+            
+            c_1.classList.remove("active")
+            c_2.classList.remove("active")
+            c_4.classList.remove("active")
+           
+
+            c_1.classList.remove("btn-success")
+            c_2.classList.remove("btn-success")
+            c_4.classList.remove("btn-success")
+            
+
+            c_1.classList.add("btn-secondary")
+            c_2.classList.add("btn-secondary")
+            c_4.classList.add("btn-secondary")
+            
+        } else if (num === 'c4') {
+            c_4.classList.remove("btn-secondary")
+            c_4.classList.add("btn-success")
+            c_4.classList.add("active")
+            fc_4.classList.add("green-bg")
+
+            fc_1.classList.remove("green-bg")
+            fc_2.classList.remove("green-bg")
+            fc_3.classList.remove("green-bg")
+            
+
+            c_1.classList.remove("active")
+            c_2.classList.remove("active")
+            c_3.classList.remove("active")
+            
+
+            c_1.classList.remove("btn-success")
+            c_2.classList.remove("btn-success")
+            c_3.classList.remove("btn-success")
+           
+
+            c_1.classList.add("btn-secondary")
+            c_2.classList.add("btn-secondary")
+            c_3.classList.add("btn-secondary")
+            
+        } 
+    }
+
+    
+</script>
+  {% endblock scripts %}
+
+
