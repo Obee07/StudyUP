@@ -1,0 +1,91 @@
+.navbar-custom {
+  background-color: #a50606;
+  color:white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.navbar-custom:hover { 
+  color: black;
+}
+
+.navbar a:hover {
+  color:#ec2f2f;
+}
+
+.navbar a {
+  color: white;
+}
+
+a:disabled {
+  color: yellow;
+}
+
+.hideRadioBtn {
+  display: none;
+}
+
+.hover-hand {
+  z-index:1;
+  cursor: pointer;
+}
+
+
+footer {
+  justify-content: center;
+}
+
+.ht {
+  height: 100%;
+}
+
+
+
+.footer-bg {
+  background-color: #a50606;
+  color: white;
+}
+
+.footer-link a{
+  color: white;
+  
+}
+
+.footer-link a{
+  text-decoration: none;
+  
+}
+
+.footer-link a:hover {
+  color:#ec2f2f;
+}
+
+
+.space {
+  height: 1000px;
+}
+
+
+@keyframes from-white-to-green {
+
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: #63ee81;
+  }
+}
+
+
+.green-bg {
+  animation: from-white-to-green;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+a:hover {
+  text-decoration: none;
+}
