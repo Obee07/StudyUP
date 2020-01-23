@@ -1,3 +1,25 @@
+/*
+LICENSE
+This is a course requirement for CS 192 Software Engineering II 
+under the supervision of Asst. Prof. Ma. Rowena C. Solamo 
+of the Department of Computer Science, College of Engineering, 
+University of the Philippines, Diliman for the AY 2019-2020
+
+AUTHORS: Ang, Karina Kylle L. 
+         Kopio, Katrina Mae D. 
+         Principio, Roberto Jr. D.
+
+CODE HISTORY
+01-23-2020 Principio - File created, code added, documentation added
+
+INFO
+File Creation Date: January 24, 2020
+Development Group: Group 9 - StudyUP Team
+Client Group: None
+Purpose of the Software: To provide a collaborative learning
+    environment in the courses of UP Diliman.
+
+*/
 
 //Bootstrap Client-Side Validation
 (function() {
@@ -46,7 +68,7 @@ q_form.addEventListener('change', () => {
     } 
 })
 
-//Unit Button Input
+
 let label_1 = document.getElementById('label_unit_no-0')
 let label_2 = document.getElementById('label_unit_no-1')
 let label_3 = document.getElementById('label_unit_no-2')
@@ -67,7 +89,15 @@ for (let i = 0; i < exitClick.length; i++) {
     })
 }
 
-//getTopics fetches list of topics for a given unit
+
+/*
+Name: getTopics (API)
+Creation Date: Jan 23, 2020
+Purpose: calls an API to fetch the topics for a given unit, for dynamic select
+Args: unit (string) - determines which subroute the API calls
+      startChap (int) - counter for optgroup labels
+*/
+
 function getTopics(unit, startChap) {
     fetch('/topic' + '/' + unit).then(function(response) { 
         response.json().then(function(data) {
@@ -91,7 +121,16 @@ function getTopics(unit, startChap) {
     });
 }
 
-//turns on classes, turns off for offList
+
+/*
+Name: toggleBtnOn
+Creation Date: Jan 23, 2020
+Purpose: adds 'sClass' class for the arg 'on', removes class of each element in 'offList'
+Args: on (DOM element) - is the element to have 'sClass' class added
+      offList (list of DOM elements) - stores elements that will have 'sClass' class deleted
+      sClass (string) - name of class to be added to 'on', removed for 'offList'
+*/
+
 function toggleBtnOn(on, offList, sClass) {
     for (let i = 0; i < sClass.length; i++) {
         on.classList.add(sClass[i])
@@ -106,7 +145,14 @@ function toggleBtnOn(on, offList, sClass) {
     }
 }
 
-//turns off classes, turns on for onList
+/*
+Name: toggleBtnOff
+Creation Date: Jan 23, 2020
+Purpose: removes 'sClass' class for the arg 'off', adds class of each element in 'onList'
+Args: off (DOM element) - is the element to have 'sClass' class removed
+      onList (list of DOM elements) - stores elements that will have 'sClass' class added
+      sClass (string) - name of class to be removed to 'on', added for 'onList'
+*/
 function toggleBtnOff(off, onList, sClass) {
     for (let i = 0; i < sClass.length; i++) {
         off.classList.remove(sClass[i])
@@ -121,7 +167,12 @@ function toggleBtnOff(off, onList, sClass) {
     }
 }
 
-// Unit Buttons
+/*
+Name: toggle
+Creation Date: Jan 23, 2020
+Purpose: toggle logic for Unit buttons
+Args: num (string) - determines which button is to be toggled
+*/
 function toggle(num) {
     if (num === '1') {
     toggleBtnOn(label_1, unitLabelList, ["active"])
@@ -158,7 +209,12 @@ for (let i = 0; i < fcList.length; i++) {
     })
 }
 
-//Choice Buttons
+/*
+Name: toggle2
+Creation Date: Jan 23, 2020
+Purpose: toggle logic for correct choice buttons
+Args: num (string) - determines which button is to be toggled
+*/
 function toggle2(num) {
     if (num === 'c1') {
         toggleBtnOn(c_1, cList, ['btn-success', 'active'])
