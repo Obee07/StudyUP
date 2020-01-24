@@ -203,8 +203,8 @@ let c_4 = document.getElementById('c_4')
 cList = [c_1, c_2, c_3, c_4]
 
 //Adding event listeners for select correct answer choice buttons
-for (let i = 0; i < fcList.length; i++) {
-    fcList[i].addEventListener('click', function() {
+for (let i = 0; i < cList.length; i++) {
+    cList[i].addEventListener('click', function() {
         toggle2('c'+(i+1).toString())
     })
 }
