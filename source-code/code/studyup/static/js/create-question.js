@@ -15,10 +15,9 @@ CODE HISTORY
 INFO
 File Creation Date: January 24, 2020
 Development Group: Group 9 - StudyUP Team
-Client Group: None
+Client Group: Ma'am Solamo, CS 192 Class
 Purpose of the Software: To provide a collaborative learning
     environment in the courses of UP Diliman.
-
 */
 
 //Bootstrap Client-Side Validation
@@ -96,6 +95,7 @@ Creation Date: Jan 23, 2020
 Purpose: calls an API to fetch the topics for a given unit, for dynamic select
 Args: unit (string) - determines which subroute the API calls
       startChap (int) - counter for optgroup labels
+Return value: None
 */
 
 function getTopics(unit, startChap) {
@@ -129,6 +129,7 @@ Purpose: adds 'sClass' class for the arg 'on', removes class of each element in 
 Args: on (DOM element) - is the element to have 'sClass' class added
       offList (list of DOM elements) - stores elements that will have 'sClass' class deleted
       sClass (string) - name of class to be added to 'on', removed for 'offList'
+Return value: None
 */
 
 function toggleBtnOn(on, offList, sClass) {
@@ -152,6 +153,7 @@ Purpose: removes 'sClass' class for the arg 'off', adds class of each element in
 Args: off (DOM element) - is the element to have 'sClass' class removed
       onList (list of DOM elements) - stores elements that will have 'sClass' class added
       sClass (string) - name of class to be removed to 'on', added for 'onList'
+Return value: None
 */
 function toggleBtnOff(off, onList, sClass) {
     for (let i = 0; i < sClass.length; i++) {
@@ -172,6 +174,7 @@ Name: toggle
 Creation Date: Jan 23, 2020
 Purpose: toggle logic for Unit buttons
 Args: num (string) - determines which button is to be toggled
+Return value: None
 */
 function toggle(num) {
     if (num === '1') {
@@ -214,6 +217,7 @@ Name: toggle2
 Creation Date: Jan 23, 2020
 Purpose: toggle logic for correct choice buttons
 Args: num (string) - determines which button is to be toggled
+Return value: None
 */
 function toggle2(num) {
     if (num === 'c1') {
