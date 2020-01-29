@@ -75,16 +75,11 @@ def topic(unit):
 
 @question.route("/create-success", methods=['GET'])
 def success():
-    questions = Question.query.all()
-    choices = Choice.query.all()
-
     recentQ = Question.query.order_by(Question.id.desc()).first()
     recentC = Choice.query.filter_by(question_id=recentQ.id)
 
-    return render_template('question-success.html', recentQ=recentQ, recentC=recentC,
-    choices=choices, questions=questions)
+    return render_template('question-success.html', recentQ=recentQ, recentC=recentC)
 
-    
 
 @question.route("/create-question", methods=['GET', 'POST'])
 def create_question():

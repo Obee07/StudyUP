@@ -68,6 +68,10 @@ footer {
   height: 1000px;
 }
 
+.space2 {
+  height: 200px;
+}
+
 
 @keyframes from-white-to-green {
 

@@ -38,12 +38,10 @@
     </div>
 </nav>
 
-
-    <div class="container">
-    {% block body %}
-    
-    {% endblock body %}
-    </div>
+<div class="container">
+{% block body %}
+{% endblock body %}
+</div>
 
 
 <div class="mb-5"></div>
@@ -100,12 +98,10 @@
     </div>
     <div class="footer-copyright text-center py-3">© 2020 Copyright: StudyUP
     </div>
-  </footer>
+</footer>
    
 {% block scripts %}
-
 {% endblock scripts %}
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="{{url_for('static', filename='js/jquery-3.4.1.min.js')}}"></script>
