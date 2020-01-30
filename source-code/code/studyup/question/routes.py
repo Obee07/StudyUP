@@ -99,14 +99,15 @@ def create_question():
         q.unit_no = form.unit_no.data
         q.topic_no = form.topic_no.data
 
-        # try:
-        filename = photos.save(form.picture.data)
-        file_url = photos.url(filename)
-        # except UploadNotAllowed:
-            # flash("Upload was not allowed.", category='warning')
-        # else:
-            #add to db
-            #q.whatever = filename
+# Doesn't let me not upload a photo, NameError: name 'UploadNotAllowed' is not defined
+# If I upload, NameError: name 'UploadNotAllowed' is not defined
+        try:
+            filename = photos.save(form.picture.data)
+            file_url = photos.url(filename)
+        except UploadNotAllowed:
+            flash("Upload was not allowed.", category='warning')
+        else:
+            q.image_file = filename
 
         db.session.add(q)
         db.session.commit()
