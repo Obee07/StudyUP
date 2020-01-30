@@ -100,10 +100,10 @@ def create_question():
         q.topic_no = form.topic_no.data
 
         # try:
-        #     filename = photos.save(form.picture.data)
-        #     file_url = photos.url(filename)
+        filename = photos.save(form.picture.data)
+        file_url = photos.url(filename)
         # except UploadNotAllowed:
-        #     flash("Upload was not allowed.", category='warning')
+            # flash("Upload was not allowed.", category='warning')
         # else:
             #add to db
             #q.whatever = filename
