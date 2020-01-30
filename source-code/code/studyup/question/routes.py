@@ -28,6 +28,13 @@ from flask_uploads import UploadSet, IMAGES
 question = Blueprint('question', __name__) #variable for questions
 photos = UploadSet('photos', IMAGES) #variable for the images
 
+
+"""
+Name: topic
+Creation Date: Jan 26, 2020
+Purpose: to return a list of topics for the course
+Return value: render to html
+"""
 @question.route("/topic/<string:unit>")
 def topic(unit):
     TOPICS = [
@@ -95,6 +102,8 @@ def topic(unit):
         topicObj['chapNo'] = topic[1]
         topicArray.append(topicObj)
     return jsonify({'topics' : topicArray})
+
+
 """
 Name: success()
 Creation Date: Jan 26, 2020
@@ -107,6 +116,7 @@ def success():
     recentC = Choice.query.filter_by(question_id=recentQ.id)
 
     return render_template('question-success.html', recentQ=recentQ, recentC=recentC)
+
 
 """
 Name: create_question()
