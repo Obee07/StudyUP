@@ -78,6 +78,10 @@ TOPICS = [
 
 COURSES = [(1, 'Physics 71')]
 
+"""
+Name: QuestionForm (class)
+Creation Date: Jan 23, 2020
+"""
 class QuestionForm(FlaskForm):
     course_id = SelectField('Course', choices=COURSES, default=COURSES[0], coerce=int, validators=[DataRequired()])
     body = StringField('Question', validators=[DataRequired()])
