@@ -99,8 +99,7 @@ def create_question():
         q.unit_no = form.unit_no.data
         q.topic_no = form.topic_no.data
 
-        #error is somewhere here
-        image = request.files.get('image') #image is none?
+        image = request.files.get('image')
         try:
             filename = photos.save(image)
             file_url = photos.url(filename)
