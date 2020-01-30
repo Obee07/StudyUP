@@ -2,8 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from studyup import db
 from studyup.question.forms import QuestionForm
 from studyup.models import Question, Choice
+from flask_uploads import UploadSet, IMAGES
 
 question = Blueprint('question', __name__)
+photos = UploadSet('photos', IMAGES)
 
 @question.route("/topic/<string:unit>")
 def topic(unit):
@@ -96,8 +98,15 @@ def create_question():
 
         q.unit_no = form.unit_no.data
         q.topic_no = form.topic_no.data
-        q.image_file = form.picture.data
 
+        image = request.files.get('image')
+        try:
+            filename = photos.save(image)
+            file_url = photos.url(filename)
+        except:
+            flash("No photo.", category='warning')
+        else:
+            q.image_file = filename
 
         db.session.add(q)
         db.session.commit()
