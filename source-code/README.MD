@@ -3,8 +3,8 @@
 Sprint 1
 
 ## Requirements
-Python 3 (which version?)
-Pip (which version?)
+Python 3.6.9
+Pip 20.0.2
 VirtualEnv
 ```
 pip install virtualenv
