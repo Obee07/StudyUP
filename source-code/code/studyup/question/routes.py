@@ -1,11 +1,32 @@
+"""
+LICENSE
+This is a course requirement for CS 192 Software Engineering II 
+under the supervision of Asst. Prof. Ma. Rowena C. Solamo 
+of the Department of Computer Science, College of Engineering, 
+University of the Philippines, Diliman for the AY 2019-2020
+AUTHORS: Ang, Karina Kylle L. 
+         Kopio, Katrina Mae D. 
+         Principio, Roberto Jr. D.
+
+CODE HISTORY
+01-23-2020 Principio - File created, code added, documentation added
+01-30-2020 Kopio - Made feature to add photos to the question creation
+
+INFO
+File Creation Date: January 24, 2020
+Development Group: Group 9 - StudyUP Team
+Client Group: Ma'am Solamo, CS 192 Class
+Purpose of the Software: To provide a collaborative learning
+    environment in the courses of UP Diliman.
+"""
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from studyup import db
 from studyup.question.forms import QuestionForm
 from studyup.models import Question, Choice
 from flask_uploads import UploadSet, IMAGES
 
-question = Blueprint('question', __name__)
-photos = UploadSet('photos', IMAGES)
+question = Blueprint('question', __name__) #variable for questions
+photos = UploadSet('photos', IMAGES) #variable for the images
 
 @question.route("/topic/<string:unit>")
 def topic(unit):
@@ -74,7 +95,12 @@ def topic(unit):
         topicObj['chapNo'] = topic[1]
         topicArray.append(topicObj)
     return jsonify({'topics' : topicArray})
-
+"""
+Name: success()
+Creation Date: Jan 26, 2020
+Purpose: to return a successful creation of a question
+Return value: render to html
+"""
 @question.route("/create-success", methods=['GET'])
 def success():
     recentQ = Question.query.order_by(Question.id.desc()).first()
@@ -82,7 +108,12 @@ def success():
 
     return render_template('question-success.html', recentQ=recentQ, recentC=recentC)
 
-
+"""
+Name: create_question()
+Creation Date: Jan 26, 2020
+Purpose: to create a valid question with 4 choices
+Return value: render to html
+"""
 @question.route("/create-question", methods=['GET', 'POST'])
 def create_question():
     form = QuestionForm()
