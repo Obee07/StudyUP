@@ -10,7 +10,7 @@
 
 <div class="card card-default">
 <div class="card-title"><h3 class="m-2">{{recentQ.body}}</h3> </div>
-<div class="card-body">Image: {{recentQ.image_file}}</div>
+<div class="card-body">Image: <img src="{{url_for('static', filename='img/' + recentQ.image_file)}}" alt=""> </div>
 <h5 class="card-text m-2 text-muted">ID: {{recentQ.id}}</h5>
 <h5 class="card-text m-2 text-muted">Solution ID: {{recentQ.solution_id}}</h5>
 <h5 class="card-text m-2 text-muted">Unit No: {{recentQ.unit_no}}</h5>
