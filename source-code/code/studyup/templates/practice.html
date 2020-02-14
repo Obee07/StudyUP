@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}
+StudyUP | Practice
+{% endblock title %}
+
+{% block body %}
+<form id="qForm" action="" method="POST" class="needs-validation" novalidate>
+    {{ form.csrf_token }}
+    <h1 class="jumbotron">Practice</h1>
+    
+    <fieldset class="form-group">
+    <div class="row">
+    <div class="col-2"></div>
+
+    <div class="col-8">
+        <div class="form-group">    
+            <h3>Course</h3>
+                {{form.course_id(class="form-control")}}
+                
+        </div>
+
+        <div class="form-group">
+            <h3>Topic</h3>
+            {{form.topicList(class="form-check-label", id="options")}}
+
+            {% for error in form.topicList.errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+
+        
+    </fieldset>
+        <div class="d-flex justify-content-md-center">
+        <button type="button" class="btn btn-danger mr-5" data-toggle="modal" data-target="#Modal">
+            Cancel
+        </button>
+        {{form.submit(class="btn btn-primary")}}
+        </div>
+    </div>
+    <div class="col-2"></div>
+</form>
+
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ModalLabel">Are you sure you want to exit practice?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Data that you have entered will not be saved.
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-danger" href="{{url_for('main.index')}}">Yes</a>  
+        </div>
+      </div>
+    </div>
+    </div>
+{% endblock body %}
+
+{% block scripts %}
+<script>
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {  
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    
+    fetch('/api/available-topics').then(function(response) { 
+        
+        response.json().then(function(data) {   
+        
+        
+        let liHTML = ''
+        for (let i = 0; i < data.topics.length; i++) {
+            liHTML += '<li>'
+            liHTML+='<input id = "topicList-' + i + '" name="topicList" type="checkbox" value="' + data.topics[i].id + '">'
+            liHTML+='<label for="topicList-' + i + '">' + data.topics[i].name + '</label> </li>'
+            
+            
+        }
+
+        
+
+        document.getElementById('options').innerHTML = liHTML
+        
+
+
+        })
+    });
+
+
+
+
+
+
+    }, false);
+    })();
+
+let unitErrorMsg = document.getElementById('unit-error')
+let q_form = document.getElementById('qForm')
+q_form.addEventListener('submit', (event) => {
+if ($('input[name=unit_no]:checked').length <= 0) {   
+    unitErrorMsg.classList.add('d-block')  
+    event.preventDefault()
+    event.stopPropagation() 
+    } 
+})
+q_form.addEventListener('change', () => {
+    if ($('input[name=unit_no]:checked').length > 0) {  
+        unitErrorMsg.classList.remove('d-block')
+    } 
+})
+
+    
+let label_1 = document.getElementById('label_unit_no-0')
+let label_2 = document.getElementById('label_unit_no-1')
+let label_3 = document.getElementById('label_unit_no-2')
+let optionMenu = document.getElementById('options')
+let unitLabelList = [label_1, label_2, label_3]
+
+for (let i = 0; i < unitLabelList.length; i++) {
+    unitLabelList[i].addEventListener('click', function() {
+        toggle((i+1).toString())
+    })
+}
+    
+//Modal popup for exit question creation
+let exitClick = document.getElementsByClassName('click-exit')
+for (let i = 0; i < exitClick.length; i++) {
+    exitClick[i].addEventListener("mouseenter", function() {
+        $('#Modal').modal('toggle')
+    })
+}
+
+
+
+
+
+</script>
+{% endblock scripts %}

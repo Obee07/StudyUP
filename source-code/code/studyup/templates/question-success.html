@@ -10,25 +10,22 @@
 
 <div class="card card-default">
 <div class="card-title"><h3 class="m-2">{{recentQ.body}}</h3> </div>
+{% if recentQ.image_file %}
 <div class="card-body">Image: <img src="{{url_for('static', filename='img/' + recentQ.image_file)}}" alt=""> </div>
-<h5 class="card-text m-2 text-muted">ID: {{recentQ.id}}</h5>
+{% endif %}
+<h5 class="card-text m-2 text-muted">ID: {{ recentQ.id }}</h5>
 <h5 class="card-text m-2 text-muted">Solution ID: {{recentQ.solution_id}}</h5>
 <h5 class="card-text m-2 text-muted">Unit No: {{recentQ.unit_no}}</h5>
-<h5 class="card-text m-2 text-muted">Topic No: {{recentQ.topic_no}}</h5 class="text-muted">
+<h5 class="card-text m-2 text-muted">Topic No: {{recentQ.topic_no}}</h5>
  
-</div >
-
-
+</div>
 
 <div class="card card-default">
     <div class="card-title"><h3 class="m-2">Choices</h3> </div>
     {% for choice in recentC %}
     <p class="btn-block m-2 card-text">{{ choice.body }}</p>  
 {% endfor %}
-    
 </div>
-
-
 
 <div class="mb-5"></div>
 <a class="btn-lg btn-danger mt-5" href="{{url_for('question.create_question')}}">
@@ -38,7 +35,5 @@
 <a class="btn-lg btn-danger mt-5 ml-5" href="{{url_for('main.view_db')}}">
     View Database
 </a>
-
-
 
 {% endblock body %} 

@@ -4,6 +4,11 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+body {
+  height: 100%;
+}
+
+
 html {
   scroll-behavior: smooth;
 }
@@ -92,4 +97,82 @@ footer {
 
 a:hover {
   text-decoration: none;
+}
+
+
+
+.question-form {
+  display: flex;
+}
+
+.question-form-topic {
+  min-width: 50vw;
+}
+
+
+
+
+@keyframes from-white-to-blue {
+
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: rgb(165, 207, 252);
+  }
+}
+
+
+.blue-bg {
+  animation: from-white-to-blue;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: none;
+}
+
+.red {
+  color: red;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '›';
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: '‹';
+  font-size: 55px;
+  color: red;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.carousel-abs {
+  position: absolute;
+  top: 0;
+}
+
+.vw {
+  font-size: 50vw;
 }

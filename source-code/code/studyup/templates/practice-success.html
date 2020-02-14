@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{{answers}}
+{{questionArray}}
+{{correctAnswerArray}}
+
+<div class="alert alert-success mt-3">
+    <strong>Here are your results:</strong>
+</div>
+
+<div class="card card-default">
+<div class="card-title"><h3 class="m-2">{{recentQ.body}}</h3> </div>
+
+{% if recentQ.image_file %}
+<div class="card-body">Image: <img src="{{url_for('static', filename='img/' + recentQ.image_file)}}" alt=""> </div>
+{% endif %}
+
+<h5 class="card-text m-2 text-muted">Your Answer: </h5>
+<h5 class="card-text m-2 text-muted">Correct Answer: </h5>
+ 
+</div>
+
+<div class="card card-default">
+		<div class="card-title"><h3 class="m-2">Explanation</h3> </div>
+    <p class="btn-block m-2 card-text">Lorem Ipsum</p>  
+    <p class="btn-block m-2 card-text"></p>  
+</div>
+
+<div class="mb-5"></div>
+<a class="btn-lg btn-danger mt-5" href="{{url_for('practice.select')}}">
+    Take Another Test!
+</a>
+
+{% endblock body %} 

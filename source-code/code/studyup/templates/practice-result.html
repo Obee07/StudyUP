@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row">
+
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="alert alert-primary mt-3">
+            <strong>Here are your results:</strong>
+        </div>
+
+        <div class="card card-default">
+        {% for i in range(length) %}
+            
+                
+                {% if answersArray[i] == correctAnswerArray[i]  %}
+                <div class="alert alert-success">
+                    <strong>You are correct!</strong>
+                </div>
+                {% else %}
+                <div class="alert alert-danger">
+                    <strong>You are wrong.</strong>
+                </div>
+                {% endif %}
+                <div class="card-title"><h3 class="m-2">{{questionArray[i].body }}</h3> </div>
+
+                {% if questionArray[i].image_file %}
+                <div class="card-body">Image: <img src="{{url_for('static', filename='img/' + questionArray[i].image_file)}}" alt=""> </div>
+                {% endif %}
+
+
+                <h5 class="card-text m-2 text-muted">Your Answer: {{ answersArray[i] }}</h5>
+            <h5 class="card-text m-2 text-muted">Correct Answer:{{ correctAnswerArray[i] }} </h5>
+            <div class="border-top mt-5 mb-5 my-3"></div>
+        {% endfor %} 
+    </div>
+<div class="mb-5"></div>
+<a class="btn-lg btn-danger mt-5" href="{{url_for('practice.select')}}">
+    Take Another Test!
+</a>
+</div>
+<div class="col-2"></div>
+</div>
+{% endblock body %} 

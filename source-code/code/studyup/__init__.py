@@ -25,8 +25,10 @@ def create_app(config_class=Config):
     #Blueprints
     from studyup.main.routes import main 
     from studyup.question.routes import question
+    from studyup.practice.routes import practice
     
     app.register_blueprint(main)
     app.register_blueprint(question)
+    app.register_blueprint(practice)
 
     return app

@@ -128,16 +128,18 @@ Return value: render to html
 def create_question():
     form = QuestionForm()
 
-    if form.validate_on_submit():
+    if request.method == "POST":
+        print("QUESTION MADE!")
         q = Question()
         q.body = form.body.data
-        q.course_id = form.course_id.data
+        q.course_id = 1
+        #q.course_id = form.course_id.data
 
         
         q.solution_id = 0 #temporary
 
 
-        q.unit_no = form.unit_no.data
+        # q.unit_no = form.unit_no.data
         q.topic_no = form.topic_no.data
 
         image = request.files.get('image')

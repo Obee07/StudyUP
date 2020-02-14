@@ -30,6 +30,7 @@ window.addEventListener('load', function() {
         if (form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
+        console.log('MAY MALI')
         }
         form.classList.add('was-validated');
     }, false);
@@ -37,23 +38,10 @@ window.addEventListener('load', function() {
 }, false);
 })();
 
-//Client-Side Validation for Unit, Choice
-let unitErrorMsg = document.getElementById('unit-error')
+//Client-Side Validation for Choice
 let choiceErrorMsg = document.getElementById('choice-error')
 let q_form = document.getElementById('qForm')
 
-q_form.addEventListener('submit', (event) => {
-    if ($('input[name=unit_no]:checked').length <= 0) {   
-        unitErrorMsg.classList.add('d-block')  
-        event.preventDefault()
-        event.stopPropagation() 
-    } 
-})
-q_form.addEventListener('change', () => {
-    if ($('input[name=unit_no]:checked').length > 0) {  
-        unitErrorMsg.classList.remove('d-block')
-    } 
-})
 q_form.addEventListener('submit', () => {
     if ($('input[name=solution_id]:checked').length <= 0) { 
         choiceErrorMsg.classList.add('d-block')  
@@ -61,25 +49,15 @@ q_form.addEventListener('submit', () => {
         event.stopPropagation()
     }
 })
+
 q_form.addEventListener('change', () => {
     if ($('input[name=solution_id]:checked').length > 0) {  
         choiceErrorMsg.classList.remove('d-block')
     } 
 })
 
-
-let label_1 = document.getElementById('label_unit_no-0')
-let label_2 = document.getElementById('label_unit_no-1')
-let label_3 = document.getElementById('label_unit_no-2')
 let optionMenu = document.getElementById('options')
-let unitLabelList = [label_1, label_2, label_3]
 
-for (let i = 0; i < unitLabelList.length; i++) {
-    unitLabelList[i].addEventListener('click', function() {
-        toggle((i+1).toString())
-    })
-}
-    
 //Modal popup for exit question creation
 let exitClick = document.getElementsByClassName('click-exit')
 for (let i = 0; i < exitClick.length; i++) {
@@ -87,40 +65,6 @@ for (let i = 0; i < exitClick.length; i++) {
         $('#Modal').modal('toggle')
     })
 }
-
-
-/*
-Name: getTopics (API)
-Creation Date: Jan 23, 2020
-Purpose: calls an API to fetch the topics for a given unit, for dynamic select
-Args: unit (string) - determines which subroute the API calls
-      startChap (int) - counter for optgroup labels
-Return value: None
-*/
-
-function getTopics(unit, startChap) {
-    fetch('/topic' + '/' + unit).then(function(response) { 
-        response.json().then(function(data) {
-            let optionHTML = ''
-            let currChapNo = startChap
-            let hasPrinted = false
-            for (let topic of data.topics) {
-                if (topic.chapNo != currChapNo) {
-                    currChapNo += 1
-                    hasPrinted = false
-                }
-                if (hasPrinted) {
-                } else {
-                    optionHTML += '<optgroup label = "Chapter ' + currChapNo + '">'
-                    hasPrinted = true
-                }
-                optionHTML += '<option class = "form-control" value="' + topic.id + '">'+ topic.name + '</option>'
-            }
-        optionMenu.innerHTML = optionHTML
-        })
-    });
-}
-
 
 /*
 Name: toggleBtnOn
@@ -241,3 +185,37 @@ function toggle2(num) {
         toggleBtnOff(c_4, cList, ['btn-secondary']) 
     } 
 }
+
+
+
+/*
+ARCHIVE
+Name: getTopics (API)
+Creation Date: Jan 23, 2020
+Purpose: calls an API to fetch the topics for a given unit, for dynamic select
+Args: unit (string) - determines which subroute the API calls
+      startChap (int) - counter for optgroup labels
+Return value: None
+*/
+// function getTopics(unit, startChap) {
+//     fetch('/topic' + '/' + unit).then(function(response) { 
+//         response.json().then(function(data) {
+//             let optionHTML = ''
+//             let currChapNo = startChap
+//             let hasPrinted = false
+//             for (let topic of data.topics) {
+//                 if (topic.chapNo != currChapNo) {
+//                     currChapNo += 1
+//                     hasPrinted = false
+//                 }
+//                 if (hasPrinted) {
+//                 } else {
+//                     optionHTML += '<optgroup label = "Chapter ' + currChapNo + '">'
+//                     hasPrinted = true
+//                 }
+//                 optionHTML += '<option class = "form-control" value="' + topic.id + '">'+ topic.name + '</option>'
+//             }
+//         optionMenu.innerHTML = optionHTML
+//         })
+//     });
+// }
