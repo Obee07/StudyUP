@@ -20,7 +20,8 @@ Purpose of the Software: To provide a collaborative learning
 """
 
 from flask import Blueprint, render_template, request
-from studyup.models import Question, Choice
+from studyup.models import Question, Choice, Answer
+from studyup import db
 
 main = Blueprint('main', __name__)
 
@@ -41,3 +42,23 @@ def view_db():
     choices = Choice.query.all()
 
     return render_template('db.html', questions=questions, choices=choices)
+
+@main.route("/db-practice")
+def view_practice_db():
+    answers = Answer.query.all()
+
+    return render_template('db-practice.html', answers=answers)
+
+
+@main.route("/delete-practice-session")
+def delete_session():
+    Answer.query.delete()
+    db.session.commit()
+    return "successfully deleted"  
+
+@main.route("/delete-qc")
+def delete():
+    Question.query.delete()
+    Choice.query.delete()
+    db.session.commit()
+    return "successfully deleted" 

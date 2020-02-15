@@ -32,12 +32,12 @@ class Question(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     
     image_file = db.Column(db.String(20), nullable=True)
-    unit_no = db.Column(db.Integer, nullable=False)
+    #unit_no = db.Column(db.Integer, nullable=False)
     topic_no = db.Column(db.Integer, nullable=False)
     
 
     def __repr__(self):
-        return f"Question([{self.id}],unit-{self.unit_no}, topic-{self.topic_no} '{self.body}', 'Image:{self.image_file}, [C:{self.solution_id}])"
+        return f"Question([{self.id}], topic-{self.topic_no} '{self.body}', 'Image:{self.image_file}, [C:{self.solution_id}])"
 
 #This creates a table for the choices per question in the module    
 class Choice(db.Model):
@@ -48,7 +48,16 @@ class Choice(db.Model):
     def __repr__(self):
         return f"Choice([{self.id}], '{self.body}', [Q:{self.question_id}]')"
 
-#This creates a table for the course selection
+# This creates a table for the course selection
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
+
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
+    choice_id = db.Column(db.Integer, db.ForeignKey('choice.id'), nullable=False)
+    
+    def __repr__(self):
+        return f"Answer([{self.id}], '{self.choice_id}', [Q:{self.question_id}]')"
+

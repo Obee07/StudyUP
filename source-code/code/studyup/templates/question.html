@@ -11,46 +11,25 @@ StudyUP | Create Question
     
     <fieldset class="form-group">
     <div class="row">
-    <div class="col-2"></div>
 
-    <div class="col-8">
-        <div class="form-group">    
-            <h3>Course</h3>
-                {{form.course_id(class="form-control")}}
-                
-            <h3>Unit </h3>
-            <div class="btn-group-lg btn-group-toggle">
-                {% for option in form.unit_no %}
-                {% if loop.index == 1 %}
-                    {{ option(class="hideRadioBtn") }} {{option.label(class="btn btn-danger hover-hand", 
-                    id="label_unit_no-0") }}
-                {% endif %}
-                {% if loop.index == 2 %}
-                    {{ option(class="hideRadioBtn") }} {{option.label(class="btn btn-danger hover-hand", 
-                    id="label_unit_no-1") }}               
-                {% endif %}
-                {% if loop.index == 3 %}
-                    {{ option(class="hideRadioBtn") }} {{option.label(class="btn btn-danger hover-hand", 
-                    id="label_unit_no-2") }}
-                {% endif %}      
-                {% endfor %}    
-                <div id="unit-error" class="invalid-feedback">Please Select a unit</div>
-            </div>
-        </div>
-
-        <div class="form-group">
+    <div class="col-8 question-form">
+        {# COURSE #}
+        
+        <div class="form-group question-form-topic">
             <h3>Topic</h3>
-            {{form.topic_no(class="form-control", id="options", disabled=True)}}
+            {{form.topic_no(id="options")}}
         </div>
+    </div>
 
-        <div class="form-group">
-        <h3>Add Picture</h3>
-            <input type=file name=image>
-        </div>
-
+        
+        <div>
         <div class="form-group">
             <h3>Question</h3>
         {{form.body(placeholder="Question", class="form-control", autocomplete="off")}}
+        </div>
+        <div class="form-group">
+            <h3>Add Picture</h3>
+                <input type=file name=image>
         </div>
         <h3>Choices</h3>
         {% for opt in form.solution_id %}
@@ -80,6 +59,8 @@ StudyUP | Create Question
             {% endif %}
             {% endfor %}
             <div id="choice-error" class="invalid-feedback">Please mark the correct answer</div> 
+        </div>
+        
     </fieldset>
         <div class="d-flex justify-content-md-center">
         <button type="button" class="btn btn-danger mr-5" data-toggle="modal" data-target="#Modal">
