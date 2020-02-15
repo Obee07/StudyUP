@@ -205,9 +205,3 @@ def result():
     print("DELETED!")
     
     return render_template('practice-result.html', answersArray=answersArray, questionArray=questionArray, correctAnswerArray=correctAnswerArray, length=len(questionArray))
-
-@practice.route("/delete-practice-session")
-def delete_session():
-    Answer.query.delete()
-    db.session.commit()
-    return "successfully deleted"    

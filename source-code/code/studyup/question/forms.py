@@ -101,8 +101,8 @@ class QuestionForm(FlaskForm):
     choice_3 = StringField('Choice 3',validators=[DataRequired()])
     choice_4 = StringField('Choice 4',validators=[DataRequired()])
     
-    solution_id = RadioField('Unit', choices=[(1, '&check;'), (2, '&check;'),
-                                             (3, '&check;'), (4, '&check;')], validators=[DataRequired()], coerce=int)
+    solution_id = RadioField('Unit', choices=[(1, '&#9675;'), (2, '&#9675;'),
+                                             (3, '&#9675;'), (4, '&#9675;')], validators=[DataRequired()], coerce=int)
    
 
 
