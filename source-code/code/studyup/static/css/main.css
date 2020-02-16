@@ -176,3 +176,7 @@ ul {
 .vw {
   font-size: 50vw;
 }
+
+.abs {
+  position: absolute;
+}

@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="mt-4"></div>
-    <form action="" method="post">
+    <form action="" method="post" id="answerForm">
         <fieldset>
         {% for i in range(length) %}
         <h3 class="mb-4"> {{ questionArray[i].body }} </h3>
@@ -21,6 +21,8 @@
                 </div>
             {% endfor %}
         </div>
+
+        <div id="timer" class="abs"></div>
 
         <div class="border-top mt-5 mb-5 my-3"></div>
         {% endfor %}
@@ -96,6 +98,45 @@ window.addEventListener('load', function() {
 }, false);
 })();
 
+
+
+
+let timerDiv = document.getElementById('timer')
+let timerCtr = 0
+let timeLeft = 70 //make this a variable passed from flask {{timeLeft}}
+// console.log(timeLeft)
+
+//time Formatter
+let getTime = (s) => {
+    let minute = Math.floor(s/60)
+    let second = s % 60
+    let tempStr = ''
+    if (minute >= 10) {
+        tempStr += minute + ':'
+    } else {
+        tempStr += '0' + minute + ':'
+    }
+
+    if (second >= 10) {
+        tempStr += second
+    } else {
+        tempStr += '0' + second
+    }
+    return tempStr
+
+}
+
+//time function, if time out, automatically submits form (regardless of answered or not)
+let timeTick = () => {
+    timerCtr = timerCtr + 1
+    timerDiv.innerHTML = getTime(timeLeft - timerCtr)
+    if (timerCtr == timeLeft) {
+        document.getElementById('answerForm').submit()
+    }
+
+}
+
+setInterval(timeTick, 1000)
 
 let exitClick = document.getElementsByClassName('click-exit')
 for (let i = 0; i < exitClick.length; i++) {
