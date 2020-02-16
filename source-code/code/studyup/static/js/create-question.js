@@ -40,11 +40,18 @@ window.addEventListener('load', function() {
 
 //Client-Side Validation for Choice
 let choiceErrorMsg = document.getElementById('choice-error')
+let topicErrorMsg = document.getElementById('topic-error')
 let q_form = document.getElementById('qForm')
 
 q_form.addEventListener('submit', () => {
     if ($('input[name=solution_id]:checked').length <= 0) { 
         choiceErrorMsg.classList.add('d-block')  
+        event.preventDefault()
+        event.stopPropagation()
+    }
+
+    if ($('input[name=topic_no]:checked').length <= 0) { 
+        topicErrorMsg.classList.add('d-block')  
         event.preventDefault()
         event.stopPropagation()
     }
@@ -54,9 +61,14 @@ q_form.addEventListener('change', () => {
     if ($('input[name=solution_id]:checked').length > 0) {  
         choiceErrorMsg.classList.remove('d-block')
     } 
+
+    if ($('input[name=topic_no]:checked').length > 0) {  
+        topicErrorMsg.classList.remove('d-block')
+    } 
+
 })
 
-let optionMenu = document.getElementById('options')
+
 
 //Modal popup for exit question creation
 let exitClick = document.getElementsByClassName('click-exit')
