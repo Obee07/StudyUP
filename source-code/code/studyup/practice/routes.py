@@ -133,7 +133,6 @@ def select():
 def test():
     form = AnswerForm()
 
-    #if just entered practice test module
     if 'practice-topics' in session:
 
         print('Topics Chosen:',session['practice-topics'])

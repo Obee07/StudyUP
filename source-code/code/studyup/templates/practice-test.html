@@ -29,6 +29,27 @@
     </form>
 
 
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">Are you sure you want to exit question creation?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Data that you have entered will not be saved.
+        </div>
+        <div class="modal-footer">
+            <a id="a-modal" class="btn btn-danger" href="{{url_for('main.index')}}">Yes</a>  
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
     
 {% endblock body %}
 
@@ -76,55 +97,73 @@ window.addEventListener('load', function() {
 })();
 
 
-function toggleBtnOn(on, offList, sClass) {
-    for (let i = 0; i < sClass.length; i++) {
-        on.classList.add(sClass[i])
-    }
-    for (let i = 0; i < offList.length; i++) {
-        if (on === offList[i]) {
-        } else {
-            for (let j = 0; j < sClass.length; j++) {
-                offList[i].classList.remove(sClass[j])
-            }
-        }   
-    }
-}
+let exitClick = document.getElementsByClassName('click-exit')
+for (let i = 0; i < exitClick.length; i++) {
+    exitClick[i].addEventListener("mouseenter", function() {
 
-function toggleBtnOff(off, onList, sClass) {
-    for (let i = 0; i < sClass.length; i++) {
-        off.classList.remove(sClass[i])
-    }
-    for (let i = 0; i < onList.length; i++) {
-        if (off === onList[i]) {
-        } else {
-            for (let j = 0; j < sClass.length; j++) {
-                onList[i].classList.add(sClass[j])
-            }
-        }   
-    }
+        if (exitClick[i].name == "btn-home") {
+            document.getElementById('a-modal').href = "{{url_for('main.index')}}"
+        } else if (exitClick[i].name == "btn-practice") {
+            document.getElementById('a-modal').href = "{{url_for('practice.select')}}"
+        }
+
+
+        $('#Modal').modal('toggle')
+    })
 }
 
 
-for (let i = 0; i < {{ length }}; i++) {
 
-    let fc_1 = document.getElementById('fc-' + i + '-1')
-    let fc_2 = document.getElementById('fc-' + i + '-2')
-    let fc_3 = document.getElementById('fc-' + i + '-3')
-    let fc_4 = document.getElementById('fc-' + i + '-4')
-    let fcList = [fc_1, fc_2, fc_3, fc_4]
 
-    let c_1 = document.getElementById('c-' + i + '-1')
-    let c_2 = document.getElementById('c-' + i + '-2')
-    let c_3 = document.getElementById('c-' + i + '-3')
-    let c_4 = document.getElementById('c-' + i + '-4')
-    cList = [c_1, c_2, c_3, c_4]
+// function toggleBtnOn(on, offList, sClass) {
+//     for (let i = 0; i < sClass.length; i++) {
+//         on.classList.add(sClass[i])
+//     }
+//     for (let i = 0; i < offList.length; i++) {
+//         if (on === offList[i]) {
+//         } else {
+//             for (let j = 0; j < sClass.length; j++) {
+//                 offList[i].classList.remove(sClass[j])
+//             }
+//         }   
+//     }
+// }
 
-    for (let i = 0; i < cList.length; i++) {
-        cList[i].addEventListener('click', function() {
-            toggle2('c'+(i+1).toString(), fcList, cList)
-        })
-    }        
-}
+// function toggleBtnOff(off, onList, sClass) {
+//     for (let i = 0; i < sClass.length; i++) {
+//         off.classList.remove(sClass[i])
+//     }
+//     for (let i = 0; i < onList.length; i++) {
+//         if (off === onList[i]) {
+//         } else {
+//             for (let j = 0; j < sClass.length; j++) {
+//                 onList[i].classList.add(sClass[j])
+//             }
+//         }   
+//     }
+// }
+
+
+// for (let i = 0; i < {{ length }}; i++) {
+
+//     let fc_1 = document.getElementById('fc-' + i + '-1')
+//     let fc_2 = document.getElementById('fc-' + i + '-2')
+//     let fc_3 = document.getElementById('fc-' + i + '-3')
+//     let fc_4 = document.getElementById('fc-' + i + '-4')
+//     let fcList = [fc_1, fc_2, fc_3, fc_4]
+
+//     let c_1 = document.getElementById('c-' + i + '-1')
+//     let c_2 = document.getElementById('c-' + i + '-2')
+//     let c_3 = document.getElementById('c-' + i + '-3')
+//     let c_4 = document.getElementById('c-' + i + '-4')
+//     cList = [c_1, c_2, c_3, c_4]
+
+//     for (let i = 0; i < cList.length; i++) {
+//         cList[i].addEventListener('click', function() {
+//             toggle2('c'+(i+1).toString(), fcList, cList)
+//         })
+//     }        
+// }
 
 
 /*
@@ -133,28 +172,34 @@ Creation Date: Jan 23, 2020
 Purpose: toggle logic for correct choice buttons
 Args: num (string) - determines which button is to be toggled
 */
-function toggle2(num, fcList, cList) {
-    if (num === 'c1') {
-        toggleBtnOn(c_1, cList, ['btn-primary', 'active'])
-        toggleBtnOn(fc_1, fcList, ['blue-bg'])
-        toggleBtnOff(c_1, cList, ['btn-secondary'])
+
+// function toggle2(num, fcList, cList) {
+//     if (num === 'c1') {
+//         toggleBtnOn(c_1, cList, ['btn-primary', 'active'])
+//         toggleBtnOn(fc_1, fcList, ['blue-bg'])
+//         toggleBtnOff(c_1, cList, ['btn-secondary'])
         
-    } else if (num === 'c2') {
-        toggleBtnOn(c_2, cList, ['btn-primary', 'active'])
-        toggleBtnOn(fc_2, fcList, ['blue-bg'])
-        toggleBtnOff(c_2, cList, ['btn-secondary'])
+//     } else if (num === 'c2') {
+//         toggleBtnOn(c_2, cList, ['btn-primary', 'active'])
+//         toggleBtnOn(fc_2, fcList, ['blue-bg'])
+//         toggleBtnOff(c_2, cList, ['btn-secondary'])
         
-    } else if (num === 'c3') {
-        toggleBtnOn(c_3, cList, ['btn-primary', 'active'])
-        toggleBtnOn(fc_3, fcList, ['blue-bg'])
-        toggleBtnOff(c_3, cList, ['btn-secondary'])
+//     } else if (num === 'c3') {
+//         toggleBtnOn(c_3, cList, ['btn-primary', 'active'])
+//         toggleBtnOn(fc_3, fcList, ['blue-bg'])
+//         toggleBtnOff(c_3, cList, ['btn-secondary'])
         
-    } else if (num === 'c4') {
-        toggleBtnOn(c_4, cList, ['btn-primary', 'active'])
-        toggleBtnOn(fc_4, fcList, ['blue-bg'])
-        toggleBtnOff(c_4, cList, ['btn-secondary']) 
-    } 
-}
+//     } else if (num === 'c4') {
+//         toggleBtnOn(c_4, cList, ['btn-primary', 'active'])
+//         toggleBtnOn(fc_4, fcList, ['blue-bg'])
+//         toggleBtnOff(c_4, cList, ['btn-secondary']) 
+//     } 
+// }
+
+
+
+
+
 
 </script>
 {% endblock scripts %}

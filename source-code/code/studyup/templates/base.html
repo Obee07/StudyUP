@@ -16,23 +16,23 @@
 <body>
     
 <nav class="navbar navbar-expand-md navbar-custom">
-    <a href="/" class="navbar-brand click-exit">StudyUP</a>
+    <a href="/" class="navbar-brand click-exit" name="btn-home">StudyUP</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar7">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-collapse collapse justify-content-stretch" id="navbar7">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{url_for('question.create_question')}}">Create Question</a>
+                <a name="btn-question" class="nav-link" href="{{url_for('question.create_question')}}">Create Question</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link click-exit btn-practice" href="{{url_for('practice.select')}}">Practice</a>
+                <a name="btn-practice" class="nav-link click-exit" href="{{url_for('practice.select')}}">Practice</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link click-exit disabled" href="#">Discuss</a>
+                <a name="btn-discuss" class="nav-link click-exit disabled" href="#">Discuss</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link click-exit disabled" href="#">User</a>
+                <a name="btn-account" class="nav-link click-exit disabled" href="#">User</a>
             </li>
         </ul>
     </div>
@@ -75,7 +75,7 @@
   
           <ul class="list-unstyled footer-link">
             <li>
-              <a class="click-exit btn-link disabled" href="#!">Practice</a>
+              <a name="btn-practice" class="click-exit btn-link" href="{{url_for('practice.select')}}">Practice</a>
             </li>
             <li>
               <a class="click-exit btn-link disabled" href="#!">Discuss</a>
