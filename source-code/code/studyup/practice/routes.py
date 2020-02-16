@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from studyup import db
 from studyup.practice.forms import SelectForm, AnswerForm
 from studyup.models import Question, Choice, Answer
+from sqlalchemy import func
 
 practice = Blueprint('practice', __name__)
 
@@ -90,7 +91,7 @@ practiceSessionQuestionIdList = []
 #this API shows the choices of a specific question given a question_id, calls this API per question
 @practice.route("/api/choices-<int:question_id>")
 def getChoices(question_id):
-    choice = Choice.query.filter_by(question_id=question_id).all() #gets all choices of specific question
+    choice = Choice.query.filter_by(question_id=question_id).order_by(func.random()).all() #gets all choices of specific question
     
     global practiceSessionQuestionIdList
     global practiceSessionChoices
@@ -141,7 +142,7 @@ def test():
         questionIdArray = []
         
         for num in session['practice-topics']:
-            q = Question.query.filter_by(topic_no=num).first() #just get first (will update later)
+            q = Question.query.filter_by(topic_no=num).order_by(func.random()).first() #just get first (will update later)
                                                                 # User.query.limit(1).all()
             questionArray.append(q)
             questionIdArray.append(q.id)
