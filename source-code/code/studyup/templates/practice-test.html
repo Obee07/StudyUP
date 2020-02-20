@@ -2,33 +2,51 @@
 
 {% block body %}
     <div class="mt-4"></div>
+   
+    <div id="timer"></div>
+    
+    <div class="row">
+    
+    <div class="col-2">
+        
+    </div>
+    <div class="col-8">
     <form action="" method="post" id="answerForm">
         <fieldset>
         {% for i in range(length) %}
-        <h3 class="mb-4"> {{ questionArray[i].body }} </h3>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title"><h5 class="mb-4"> {{ questionArray[i].body }} </h5></div>
+                
 
         {% if questionArray[i].image_file %}
         <div> <img src="{{ url_for('static', filename='img/' + questionArray[i].image_file) }}" alt=""> </div>
         {% endif %}
         
-        <div class="form-group">
-            {% for opt in formArray[i].answer %}
+        <div class="card-text">
+            <div class="form-group">
+                {% for opt in formArray[i].answer %}
 
-                <div class="form-group d-flex">
-                {{opt(class=i, id="{{i}}-{{loop.index}}")}}
-                {# <label id="c-{{i}}-{{loop.index}}" for="opt-{{i}}-{{loop.index0}}" class="btn-sm btn-secondary mr-3 mt-1 hover-hand">></label> #}
-                <span id="fc-{{i}}-{{loop.index}}" class="form-control"></span>
-                </div>
-            {% endfor %}
+                    <div class="form-group d-flex">
+                    {{opt(class=i, id="{{i}}-{{loop.index}}")}}
+                    <label id="fc-{{i}}-{{loop.index}}" for="opt-{{i}}-{{loop.index0}}" class="choiceText hover-hand">></label> 
+                    
+                    </div>
+                {% endfor %}
+            </div>
         </div>
 
-        <div id="timer" class="abs"></div>
-
+            </div>
+        </div>
         <div class="border-top mt-5 mb-5 my-3"></div>
         {% endfor %}
         </fieldset>
         <input type="submit" class="btn btn-primary">
     </form>
+    </div>
+    <div class="col-2"></div>
+    </div>
 
 
 <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -70,7 +88,7 @@ window.addEventListener('load', function() {
         for (let j = 0; j < temp.length; j++) {
             temp[j].name = i
             temp[j].id = "opt-" + i + "-" + j
-            temp[j].classList.add("mt-3")
+            temp[j].classList.add("mt-2")
             // temp[j].classList.add("hideRadioBtn")
             // temp[j].classList.add("custom-control-input")
         }
@@ -103,7 +121,7 @@ window.addEventListener('load', function() {
 
 let timerDiv = document.getElementById('timer')
 let timerCtr = 0
-let timeLeft = 70 //make this a variable passed from flask {{timeLeft}}
+let timeLeft = 10000 //make this a variable passed from flask {{timeLeft}}
 // console.log(timeLeft)
 
 //time Formatter
@@ -112,9 +130,9 @@ let getTime = (s) => {
     let second = s % 60
     let tempStr = ''
     if (minute >= 10) {
-        tempStr += minute + ':'
+        tempStr += minute + ' : '
     } else {
-        tempStr += '0' + minute + ':'
+        tempStr += '0' + minute + ' : '
     }
 
     if (second >= 10) {

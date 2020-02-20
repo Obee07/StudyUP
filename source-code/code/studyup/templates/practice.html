@@ -68,7 +68,7 @@ StudyUP | Practice
         for (let i = 0; i < data.topics.length; i++) {
             liHTML += '<li>'
             liHTML+='<input id = "topicList-' + i + '" name="topicList" type="checkbox" value="' + data.topics[i].id + '">'
-            liHTML+='<label for="topicList-' + i + '">' + data.topics[i].name + '</label> </li>'
+            liHTML+='<label class="hover-hand" for="topicList-' + i + '">' + data.topics[i].name + '</label> </li>'
         }
         document.getElementById('options').innerHTML = liHTML
         })

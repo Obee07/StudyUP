@@ -177,6 +177,61 @@ ul {
   font-size: 50vw;
 }
 
-.abs {
-  position: absolute;
+#timer {
+  top: 100px;
+  position: sticky;
+  
+}
+
+.sticky {
+  top: 0;
+  position: sticky;
+}
+
+.ztop {
+  z-index: 2;
+}
+
+input[type=radio]{
+  transform:scale(1.45);
+  margin-right: 10px;
+}
+
+.choiceText {
+  font-weight: 500;
+  font-size: large;
+}
+
+.choiceText:hover {
+  transform: perspective(1px) scale(1.1);
+}
+
+input[type=checkbox]{
+  transform:scale(1.15);
+  margin-right: 10px;
+}
+
+input[type=checkbox]:checked+label{
+ 
+  margin-right: 10px;
+  transition: 0.05s;
+  font-weight: bold;
+}
+
+input[type=radio]:checked+label{
+ 
+  margin-right: 10px;
+  transition: 0.05s;
+  font-weight: bold;
+}
+
+label[for*="topic"]:hover {
+  transition: 0.05s;
+  transform: scale(1.05);
+  margin-left: 5px;
+}
+
+.btn:hover {
+  transition: 0.10s;
+  transform: scale(1.05);
 }

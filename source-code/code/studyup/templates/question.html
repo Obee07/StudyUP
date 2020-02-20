@@ -17,7 +17,11 @@ StudyUP | Create Question
         
         <div class="form-group question-form-topic">
             <h3>Topic</h3>
-            {{form.topic_no(id="options")}}
+            <div class="form-group">
+            {% for topic in form.topic_no %}
+                {{topic}} {{topic.label(class="hover-hand")}} <br>
+            {% endfor %}
+            </div>
         </div>
     </div>
 
