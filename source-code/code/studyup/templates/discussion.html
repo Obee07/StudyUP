@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+StudyUP | Discussion
+{% endblock title %}
+
+{% block body %}
+<h1 class="jumbotron">Discussion</h1>
+
+<div class="row">
+    
+    <div class="col-6">
+        <ul class="form-check-label" id="options"></ul>
+    </div>
+    <div class="col-6">
+        <div id="questionsDiv">
+            
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock body %}
+
+{% block scripts %}
+<script>
+
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {      
+    fetch('/api/available-topics').then(function(response) { 
+        
+        response.json().then(function(data) {   
+            console.log(data)
+        let liHTML = ''
+        for (let i = 0; i < data.topics.length; i++) {
+            liHTML += '<li>'
+            liHTML+='<input id = "topicList-' + i + '" name="topicList" type="radio" value="' + data.topics[i].id + '">'
+            liHTML+='<label class="hover-hand" for="topicList-' + i + '">' + data.topics[i].name + '</label> </li>'
+        }
+        document.getElementById('options').innerHTML = liHTML
+        })
+    });
+    }, false);
+})();
+
+
+document.getElementById('options').addEventListener("click", function(e) {
+    if (e.target.tagName === 'INPUT') {
+        // console.log(e.target.value)
+        let num = e.target.value
+        
+        fetch('/api/topic/' + num + '/questions').then(function(response) { 
+            
+            response.json().then(function(data) {   
+                
+                let div = document.getElementById('questionsDiv')
+                div.innerHTML = ''
+                let aHTML = ''
+                for (let i = 0; i < data.questions.length; i++) {
+                    let aHTML = ''
+                    aHTML += "<div class='card'>"
+                        aHTML += "<div class='card-body'>"
+                    aHTML += '<a '
+                    aHTML += "href='/discussion/" + data.questions[i].id + "'>"
+                    if (data.questions[i].body.length >= 135) {
+                        aHTML += data.questions[i].body.slice(0, 135) + '...'
+                    } else {
+                        aHTML += data.questions[i].body
+                    }
+                    
+                    aHTML += '</a>'
+                    aHTML += '</div>'
+                    aHTML += '</div>'
+                   
+                    div.innerHTML += aHTML
+                }
+                
+           
+            })
+        });
+        
+    } 
+})
+
+
+
+
+</script>
+{% endblock scripts %}

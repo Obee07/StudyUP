@@ -71,7 +71,7 @@ TOPICS = [
         (46, 'Types of mechanical waves, Periodic waves, Mathematical description of wave, Speed of a transverse wave'),
         (47, 'Energy in wave motion, Wave interference, boundary conditions, and superposition'),
         (48, 'Standing waves on a string, Normal modes of a string'),
-        (49, 'Dopper Effect')
+        (49, 'Doppler Effect')
             ]
 
 # TOPICS = [(0, 'Select the Unit first')]

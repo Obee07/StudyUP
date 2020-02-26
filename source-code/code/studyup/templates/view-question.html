@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+StudyUP | Discussion
+{% endblock title %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="card-title"><h5 class="mb-4"> {{ question.body }} </h5></div>
+            </div>
+
+                {% if question.image_file %}
+                <div> <img src="{{ url_for('static', filename='img/' + question.image_file) }}" alt=""> </div>
+                {% endif %}
+
+            <div class="card-text">
+                <div class="form-group">
+                    {% for i in range(4) %}
+                        <div class="form-group">
+                            
+                            <label id="fc-{{i}}">></label> 
+                        </div>
+                        
+                    {% endfor %}
+                </div>
+            </div>
+
+            
+        </div>
+        
+    </div>
+    <div class="col-2"></div>
+
+</div>
+
+
+{% endblock body %}
+
+{% block scripts %}
+
+<script>
+
+//IIFE for loading choices of each question as well as changing name attr of each form
+(function() {
+'use strict';
+window.addEventListener('load', function() {  
+        
+        fetch('/api/choices' + '-' + {{question.id}}).then(function(response) { 
+        response.json().then(function(data) {
+        console.log(data.correctText)
+        let fc_1 = document.getElementById('fc-'+ '0')
+        let fc_2 = document.getElementById('fc-'+ '1')
+        let fc_3 = document.getElementById('fc-'+ '2')
+        let fc_4 = document.getElementById('fc-'+ '3')
+
+            let fcList = [fc_1, fc_2, fc_3, fc_4]
+        
+        for (let i = 0; i < 4; i++) {
+            fcList[i].innerHTML = data.choices[i]
+            if (data.choices[i] === data.correctText) {
+                fcList[i].classList.add("correct-answer")
+            }
+        }
+
+        
+
+        
+        })
+    });
+    
+}, false);
+})();
+
+
+</script>
+
+
+{% endblock scripts %}

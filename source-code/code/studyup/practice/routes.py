@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from studyup import db
 from studyup.practice.forms import SelectForm, AnswerForm
 from studyup.models import Question, Choice, Answer
+from sqlalchemy import func
 
 practice = Blueprint('practice', __name__)
 
@@ -84,14 +85,18 @@ def getAvailableTopics():
     return jsonify({'topics' : topicArray})
 
 
-isNewSession = 0
-practiceSessionChoices = []
-practiceSessionQuestionIdList = []
+
+isNewSession = 0 #Boolean Flag if practice session is a new one 
+practiceSessionChoices = [] #Array that contains arrays of choices per question
+practiceSessionQuestionIdList = [] #Array that contains the id of question
+#Idea: practiceSessionChoices and practiceSessionQuestionIdList is mapped one to one (by index)
+
+
 #this API shows the choices of a specific question given a question_id, calls this API per question
 @practice.route("/api/choices-<int:question_id>")
 def getChoices(question_id):
-    choice = Choice.query.filter_by(question_id=question_id).all() #gets all choices of specific question
-    
+    choice = Choice.query.filter_by(question_id=question_id).order_by(func.random()).all() #gets all choices of specific question in a random order
+    question = Question.query.filter_by(id=question_id).first()
     global practiceSessionQuestionIdList
     global practiceSessionChoices
     global isNewSession
@@ -103,14 +108,21 @@ def getChoices(question_id):
             
     choiceArray = []
     choiceIdArray = []
+    
     for item in choice:
         choiceArray.append(item.body)
         choiceIdArray.append(item.id)
+        if (item.id == question.solution_id):
+            correctText = item.body
 
     practiceSessionChoices.append(choiceIdArray)
     practiceSessionQuestionIdList.append(question_id)
+
+    print("<<API>>")
+    print(practiceSessionChoices)
+    print(practiceSessionQuestionIdList)
     
-    return jsonify({'choices' : choiceArray})
+    return jsonify({'choices' : choiceArray, 'correctText' : correctText })
 
 #selecting topics
 @practice.route("/practice", methods=['GET', 'POST'])
@@ -119,8 +131,9 @@ def select():
 
     if form.validate_on_submit():
         global isNewSession
-        #session['practice-topics] is an array of topic_no's
+        
         session['practice-topics'] = form.topicList.data
+        #session['practice-topics] is an array of topic_no's
         isNewSession = 1
 
         return redirect(url_for('practice.test'))
@@ -132,7 +145,6 @@ def select():
 def test():
     form = AnswerForm()
 
-    #if just entered practice test module
     if 'practice-topics' in session:
 
         print('Topics Chosen:',session['practice-topics'])
@@ -141,11 +153,13 @@ def test():
         questionIdArray = []
         
         for num in session['practice-topics']:
-            q = Question.query.filter_by(topic_no=num).first() #just get first (will update later)
-                                                                # User.query.limit(1).all()
+            q = Question.query.filter_by(topic_no=num).order_by(func.random()).first() 
+            print("Question for topic ", num)
+            print(q)                                      
             questionArray.append(q)
             questionIdArray.append(q.id)
         
+        #formArray is an array of forms (one form per question)
         formArray = []
         for i in range(len(questionArray)):
             form = AnswerForm()
@@ -154,7 +168,32 @@ def test():
         length = len(questionArray)
         session['practice-length'] = length
         session.pop('practice-topics')
-        
+
+        #SPRINT 3
+        '''
+        Add a new column to database table of Question "time"
+        for simplicity, make the minimum to 1 minute na lang 
+        Add new form (radiofield or dropdown just not textfield) 
+        in question/forms.py then modify template for the create question 
+        (add default parameter as 1 minute in forms.py)
+
+        modify question/routes.py appropriately
+
+        modify template db if you want to check if its time is in the database (add time column)
+
+        get the time value of each question 
+        then sum up the time value of each question
+        convert the sum of the time into seconds (Javascript in the template handles the conversion
+                                                    in the timer display)
+        add a variable timeLeft here and pass it below
+        timeLeft=timeLeft
+        uncomment line 107 in practice-test.html to test if it gets passed properly
+        '''
+
+        print("GOING TO ANSWER")
+        print("questionIdArray")
+        print(questionIdArray)
+
         return render_template('practice-test.html', formArray=formArray, questionArray=questionArray, questionIdArray=questionIdArray, length=length)
     
     else:
@@ -164,19 +203,23 @@ def test():
             length = session['practice-length']
             session.pop('practice-length')
 
+            print("=================POST========================")
             print("practiceSessionChoices:",practiceSessionChoices)
-
-            x = 0
+            print(practiceSessionQuestionIdList)
+            
             for i in range(length):
+                #Data is 1-based index of choice
                 data = request.form.get(str(i))
+                print("Data:", data)
                 if data == None: #no answer
                     pass
                 else:
                     a = Answer()
-                    a.question_id = practiceSessionQuestionIdList[x]
-                    x = x + 1
+                    a.question_id = practiceSessionQuestionIdList[i]
+
                     a.choice_id = practiceSessionChoices[i][int(data) - 1]
                     db.session.add(a)
+                    print(a)
                     db.session.commit()
                
             
@@ -187,21 +230,30 @@ def test():
 
 @practice.route("/practice-result", methods=['GET','POST'])
 def result():
+    print("RESULTS")
     global practiceSessionQuestionIdList
+    print(practiceSessionQuestionIdList)
     answers = Answer.query.all()
     answersArray = []
+
+    #Store Answer Python Object in answerArray
     for answer in answers:
         answersArray.append(Choice.query.filter_by(id=answer.choice_id).first().body)
-    questionArray = []
+    
     correctAnswerArray = []
 
+    questionArray = []
+    #Store questions from practiceSession
     for num in practiceSessionQuestionIdList:
         q = Question.query.filter_by(id=num).first()
         questionArray.append(q)
         correctAnswerArray.append(Choice.query.filter_by(id=q.solution_id).first().body)
     
+
     Answer.query.delete()
     db.session.commit()
     print("DELETED!")
+
+    print(questionArray)
     
     return render_template('practice-result.html', answersArray=answersArray, questionArray=questionArray, correctAnswerArray=correctAnswerArray, length=len(questionArray))
