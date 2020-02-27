@@ -151,6 +151,7 @@ def test():
         
         questionArray = []
         questionIdArray = []
+        time = 0 #total time of questions in session
         
         for num in session['practice-topics']:
             q = Question.query.filter_by(topic_no=num).order_by(func.random()).first() 
@@ -158,6 +159,7 @@ def test():
             print(q)                                      
             questionArray.append(q)
             questionIdArray.append(q.id)
+            time += q.time
         
         #formArray is an array of forms (one form per question)
         formArray = []
@@ -171,25 +173,25 @@ def test():
 
         #SPRINT 3
         '''
-        Add a new column to database table of Question "time"
-        for simplicity, make the minimum to 1 minute na lang 
-        Add new form (radiofield or dropdown just not textfield) 
-        in question/forms.py then modify template for the create question 
-        (add default parameter as 1 minute in forms.py)
+        # Add a new column to database table of Question "time"
+        # for simplicity, make the minimum to 1 minute na lang 
+        # Add new form (radiofield or dropdown just not textfield) 
+        # in question/forms.py then modify template for the create question 
+        # (add default parameter as 1 minute in forms.py)
 
-        modify question/routes.py appropriately
+        # modify question/routes.py appropriately
 
         modify template db if you want to check if its time is in the database (add time column)
 
-        get the time value of each question 
-        then sum up the time value of each question
-        convert the sum of the time into seconds (Javascript in the template handles the conversion
+        # get the time value of each question 
+        # then sum up the time value of each question
+        # convert the sum of the time into seconds (Javascript in the template handles the conversion
                                                     in the timer display)
         add a variable timeLeft here and pass it below
         timeLeft=timeLeft
         uncomment line 107 in practice-test.html to test if it gets passed properly
         '''
-
+        timeLeft=time
         print("GOING TO ANSWER")
         print("questionIdArray")
         print(questionIdArray)
@@ -210,7 +212,7 @@ def test():
             for i in range(length):
                 #Data is 1-based index of choice
                 data = request.form.get(str(i))
-                print("Data:", data)
+                print("practice-lengthData:", data)
                 if data == None: #no answer
                     pass
                 else:
