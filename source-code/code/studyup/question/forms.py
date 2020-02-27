@@ -71,7 +71,7 @@ TOPICS = [
         (46, 'Types of mechanical waves, Periodic waves, Mathematical description of wave, Speed of a transverse wave'),
         (47, 'Energy in wave motion, Wave interference, boundary conditions, and superposition'),
         (48, 'Standing waves on a string, Normal modes of a string'),
-        (49, 'Dopper Effect')
+        (49, 'Doppler Effect')
             ]
 
 # TOPICS = [(0, 'Select the Unit first')]
@@ -92,8 +92,7 @@ class QuestionForm(FlaskForm):
     topic_no = RadioField('Topic', choices=TOPICS, coerce=int, validators=[DataRequired()], render_kw={'style': 'list-style: none;'})
     picture = FileField('Add Picture',
                 validators=[FileAllowed(['jpg', 'png'])])
-    
-    
+    timer = RadioField('Timer', choices=[('No', 'No timed test'),('Yes', 'Yes timed test')], default='Yes')
 
 
     choice_1 = StringField('Choice 1', validators=[DataRequired()])
