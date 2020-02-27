@@ -34,7 +34,9 @@ class Question(db.Model):
     image_file = db.Column(db.String(20), nullable=True)
     #unit_no = db.Column(db.Integer, nullable=False)
     topic_no = db.Column(db.Integer, nullable=False)
-    
+    # time = db.Column(db.DateTime, nullable=True) 
+    # not sure if DateTime is best type
+    time = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f"Question([{self.id}], topic-{self.topic_no} '{self.body}', 'Image:{self.image_file}, [C:{self.solution_id}])"
