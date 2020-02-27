@@ -24,6 +24,7 @@ from studyup import db
 from studyup.question.forms import QuestionForm
 from studyup.models import Question, Choice
 from flask_uploads import UploadSet, IMAGES
+from datetime import datetime
 
 question = Blueprint('question', __name__) #variable for questions
 photos = UploadSet('photos', IMAGES) #variable for the images
@@ -151,6 +152,8 @@ def create_question():
         else:
             q.image_file = filename
 
+        q.time = 60 # temporary -- moderator will set up time
+        # q.time = datetime.time(second=59)
         db.session.add(q)
         db.session.commit()
 
