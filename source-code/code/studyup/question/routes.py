@@ -152,8 +152,8 @@ def create_question():
         else:
             q.image_file = filename
 
-        # let q.time = 60 seconds (But in datetime form lmao)
-        q.time = datetime.time(second=59) #temporary -- moderator will set up time
+        q.time = 60 # temporary -- moderator will set up time
+        # q.time = datetime.time(second=59)
         db.session.add(q)
         db.session.commit()
 
