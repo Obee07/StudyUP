@@ -235,3 +235,11 @@ label[for*="topic"]:hover {
   transition: 0.10s;
   transform: scale(1.05);
 }
+
+.showChecked {
+  display: block;
+}
+
+.hideChecked {
+  display: none;
+}
