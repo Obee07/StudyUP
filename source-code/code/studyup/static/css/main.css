@@ -252,3 +252,6 @@ label[for*="topic"]:hover {
   display: none;
 }
 
+.full-width {
+  width: 100%;
+}

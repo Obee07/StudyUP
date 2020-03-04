@@ -63,19 +63,20 @@ document.getElementById('options').addEventListener("click", function(e) {
                 let aHTML = ''
                 for (let i = 0; i < data.questions.length; i++) {
                     let aHTML = ''
-                    aHTML += "<div class='card'>"
-                        aHTML += "<div class='card-body'>"
-                    aHTML += '<a '
+                    aHTML += "<a class='btn card full-width' "
+                        
+                    // aHTML += '<a '
                     aHTML += "href='/discussion/" + data.questions[i].id + "'>"
+                    aHTML += "<div class='card-body'><strong>"
                     if (data.questions[i].body.length >= 135) {
                         aHTML += data.questions[i].body.slice(0, 135) + '...'
                     } else {
                         aHTML += data.questions[i].body
                     }
                     
+                    // aHTML += '</a>'
+                    aHTML += '</strong></div>'
                     aHTML += '</a>'
-                    aHTML += '</div>'
-                    aHTML += '</div>'
                    
                     div.innerHTML += aHTML
                 }
