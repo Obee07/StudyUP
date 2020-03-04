@@ -29,7 +29,9 @@
                 <a name="btn-practice" class="nav-link click-exit" href="{{url_for('practice.select')}}"><strong>Practice</strong></a>
             </li>
             <li class="nav-item">
-                <a name="btn-discuss" class="nav-link click-exit disabled" href="#"><strong>Discuss</strong></a>
+
+                <a name="btn-discuss" class="nav-link click-exit" href="{{url_for('discussion.select')}}"><strong>Discuss</strong></a>
+
             </li>
             <li class="nav-item">
                 <a name="btn-account" class="nav-link click-exit disabled" href="#"><strong>User</strong></a>
@@ -100,8 +102,11 @@
     </div>
 </footer>
    
+
 {% block scripts %}
+
 {% endblock scripts %}
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="{{url_for('static', filename='js/jquery-3.4.1.min.js')}}"></script>
