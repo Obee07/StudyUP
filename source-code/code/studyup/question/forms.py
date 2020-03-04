@@ -92,7 +92,9 @@ class QuestionForm(FlaskForm):
     topic_no = RadioField('Topic', choices=TOPICS, coerce=int, validators=[DataRequired()], render_kw={'style': 'list-style: none;'})
     picture = FileField('Add Picture',
                 validators=[FileAllowed(['jpg', 'png'])])
-    timer = RadioField('Timer', choices=[('No', 'No timed test'),('Yes', 'Yes timed test')], default='No')
+
+    timer = RadioField('Timer', choices=[('No', 'No timed test'),('Yes', 'Yes timed test')], default='Yes')
+
 
 
     choice_1 = StringField('Choice 1', validators=[DataRequired()])
@@ -100,8 +102,8 @@ class QuestionForm(FlaskForm):
     choice_3 = StringField('Choice 3',validators=[DataRequired()])
     choice_4 = StringField('Choice 4',validators=[DataRequired()])
     
-    solution_id = RadioField('Unit', choices=[(1, '&#9675;'), (2, '&#9675;'),
-                                             (3, '&#9675;'), (4, '&#9675;')], validators=[DataRequired()], coerce=int)
+    solution_id = RadioField('Unit', choices=[(1, '✔'), (2, '✔'),
+                                             (3, '✔'), (4, '✔')], validators=[DataRequired()], coerce=int)
    
 
 

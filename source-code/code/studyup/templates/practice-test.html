@@ -125,10 +125,10 @@ window.addEventListener('load', function() {
 
 
 
+
 let timerDiv = document.getElementById('timer')
 let timerCtr = 0
-//let timeLeft = {{timeLeft}} //uncomment this
-let timeLeft = 10000 //make this a variable passed from flask {{timeLeft}}
+let timeLeft = {{timeLeft}} 
 
 //time Formatter
 let getTime = (s) => {
@@ -170,10 +170,10 @@ for (let i = 0; i < exitClick.length; i++) {
             document.getElementById('a-modal').href = "{{url_for('main.index')}}"
         } else if (exitClick[i].name == "btn-practice") {
             document.getElementById('a-modal').href = "{{url_for('practice.select')}}"
+        } else if (exitClick[i].name == "btn-discuss") {
+            document.getElementById('a-modal').href = "{{url_for('discussion.select')}}"
         }
-        // } else if (exitClick[i].name == "btn-discuss") {
-        //     document.getElementById('a-modal').href = "{{url_for('discussion.select')}}"
-        // }
+
 
 
         $('#Modal').modal('toggle')
