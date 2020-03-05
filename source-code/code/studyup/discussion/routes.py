@@ -83,6 +83,11 @@ def select():
 def viewQuestion(question_id):
     form = CommentForm()
     question = Question.query.filter_by(id=question_id).first()
-    #query database of comment section
+    #query database of comment section, filter by thread_id=question_id.all
+    #comments = Comment.query.filter_by(thread_id=question_id).all()
+    #pass as variable
+    #comments=comments
+
+    #if POST, just commit to database
     return render_template('view-question.html', question=question, form=form)
 
