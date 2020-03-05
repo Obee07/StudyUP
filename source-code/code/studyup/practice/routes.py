@@ -206,39 +206,47 @@ def test():
                     db.session.add(a)
                     print(a)
                     db.session.commit()
-               
+            
+            session['practice-session-done'] = True
             
             return redirect(url_for('practice.result'))
-    return 'ERROR: NO SESSION FOUND'
+    return redirect(url_for('practice.select'))
 
 
 
 @practice.route("/practice-result", methods=['GET','POST'])
 def result():
-    print("RESULTS")
-    global practiceSessionQuestionIdList
-    print(practiceSessionQuestionIdList)
-    answers = Answer.query.all()
-    answersArray = []
 
-    #Store Answer Python Object in answerArray
-    for answer in answers:
-        answersArray.append(Choice.query.filter_by(id=answer.choice_id).first().body)
-    
-    correctAnswerArray = []
+    if (session['practice-session-done'] == True):
+        session['practice-session-done'] = False
 
-    questionArray = []
-    #Store questions from practiceSession
-    for num in practiceSessionQuestionIdList:
-        q = Question.query.filter_by(id=num).first()
-        questionArray.append(q)
-        correctAnswerArray.append(Choice.query.filter_by(id=q.solution_id).first().body)
-    
 
-    Answer.query.delete()
-    db.session.commit()
-    print("DELETED!")
+        print("RESULTS")
+        global practiceSessionQuestionIdList
+        print(practiceSessionQuestionIdList)
+        answers = Answer.query.all()
+        answersArray = []
 
-    print(questionArray)
-    
-    return render_template('practice-result.html', answersArray=answersArray, questionArray=questionArray, correctAnswerArray=correctAnswerArray, length=len(questionArray))
+        #Store Answer Python Object in answerArray
+        for answer in answers:
+            answersArray.append(Choice.query.filter_by(id=answer.choice_id).first().body)
+        
+        correctAnswerArray = []
+
+        questionArray = []
+        #Store questions from practiceSession
+        for num in practiceSessionQuestionIdList:
+            q = Question.query.filter_by(id=num).first()
+            questionArray.append(q)
+            correctAnswerArray.append(Choice.query.filter_by(id=q.solution_id).first().body)
+        
+
+        Answer.query.delete()
+        db.session.commit()
+        print("DELETED!")
+
+        print(questionArray)
+        
+        return render_template('practice-result.html', answersArray=answersArray, questionArray=questionArray, correctAnswerArray=correctAnswerArray, length=len(questionArray))
+    else:
+        return redirect(url_for('practice.select'))

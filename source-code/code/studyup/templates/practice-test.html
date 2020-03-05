@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block title %}
+StudyUP | Practice
+{% endblock title %}
 {% block body %}
     <div class="mt-4"></div>
    
@@ -15,7 +18,7 @@
         <fieldset>
         {% for i in range(length) %}
         
-        <div class="card">
+        <div class="shadow-sm card">
             <div class="card-body">
                 <div class="card-title"><h5 class="mb-4"> {{ questionArray[i].body }} </h5></div>
                 

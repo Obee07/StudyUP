@@ -63,3 +63,17 @@ class Answer(db.Model):
     def __repr__(self):
         return f"Answer([{self.id}], '{self.choice_id}', [Q:{self.question_id}]')"
 
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    thread_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
+
+    #change author to User
+    author = db.Column(db.String(50), nullable=False)
+
+    body = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Comment([{self.id}] | Thread: [{self.thread_id}] | body [{self.body}] | date [{self.date}])"
+

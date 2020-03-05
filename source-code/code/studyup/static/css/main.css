@@ -255,3 +255,11 @@ label[for*="topic"]:hover {
 .full-width {
   width: 100%;
 }
+
+textarea {
+  resize: none;
+}
+
+.comment-text {
+  flex-grow: 1;
+}

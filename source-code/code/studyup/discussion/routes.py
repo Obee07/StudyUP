@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify
 from studyup.models import Question, Choice, Answer
 from studyup import db
+from studyup.discussion.forms import CommentForm
 
 discussion = Blueprint('discussion', __name__)
 
@@ -80,7 +81,8 @@ def select():
 
 @discussion.route('/discussion/<int:question_id>')
 def viewQuestion(question_id):
+    form = CommentForm()
     question = Question.query.filter_by(id=question_id).first()
     #query database of comment section
-    return render_template('view-question.html', question=question)
+    return render_template('view-question.html', question=question, form=form)
 
