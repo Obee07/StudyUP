@@ -55,6 +55,7 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
 
+# This creates a table for the correct answer for a question
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
@@ -63,3 +64,30 @@ class Answer(db.Model):
     def __repr__(self):
         return f"Answer([{self.id}], '{self.choice_id}', [Q:{self.question_id}]')"
 
+# This creates a table for our users
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='static/img/user/default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    user_type = db.Column(db.Integer, primary_key=True)
+        #student_user = 1
+        #moderator_user = 2
+    comments = db.relationship('Comment', back_populates='author')
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+
+#This creates a table for a comment a user gives
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    time_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    comment = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    author = db.relationship('User', back_populates='comments')
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
+        # corresponds to question comment was asked on
+
+    def __repr__(self):
+        return f"Comment('{self.date_posted}', '{self.comment}')"
