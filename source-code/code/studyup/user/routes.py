@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 #, request, jsonify, session
-from studyup import db
+from studyup import db, bcrypt
 from studyup.user.forms import RegistrationForm, LoginForm
 from studyup.main.routes import index
-# from studyup.models import 
+from studyup.models import User 
 from sqlalchemy import func
 
 user = Blueprint('user', __name__)
@@ -12,9 +12,13 @@ user = Blueprint('user', __name__)
 def register():
 	form = RegistrationForm()
 	if form.validate_on_submit():
-		flash(f'Account created for {form.username.data}!', 'success')
-		# return redirect(url_for(main.index)) #-> idk how to make this work
-		return render_template('index.html')
+		# hash password
+		hashed_pw = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+		user = User(username=form.username.data, email=form.email.data, password=hashed_pw, user_type=form.usertype.data)
+		db.session.add()
+		db.session.commit()
+		flash('Your account has been successfully created!', 'success')
+		return redirect(url_for(login))
 	return render_template('register.html', title='Register', form=form)
 
 @user.route("/login", methods=['GET','POST'])

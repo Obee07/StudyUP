@@ -37,6 +37,8 @@ class Question(db.Model):
     # time = db.Column(db.DateTime, nullable=True) 
     # not sure if DateTime is best type
     time = db.Column(db.Integer, nullable=True)
+    choices = db.relationship('Choice', back_populates='question')
+
 
     def __repr__(self):
         return f"Question([{self.id}], topic-{self.topic_no} '{self.body}', 'Image:{self.image_file}, [C:{self.solution_id}])"
@@ -46,7 +48,8 @@ class Choice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text, nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
-   
+    question = db.relationship('Question', back_populates='choices')
+    
     def __repr__(self):
         return f"Choice([{self.id}], '{self.body}', [Q:{self.question_id}]')"
 
@@ -66,7 +69,7 @@ class Answer(db.Model):
 
 # This creates a table for our users
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='static/img/user/default.jpg')
