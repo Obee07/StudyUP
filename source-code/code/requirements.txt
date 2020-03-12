@@ -11,3 +11,4 @@ WTForms==2.2.1
 Flask-Uploads==0.2.1
 Flask-Bcrypt==0.7.1
 Flask-Login==0.4.1
+Pillow==7.0.0
