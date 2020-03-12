@@ -45,7 +45,7 @@ def login():
 			return redirect(url_for('main.index'))
 		else:
 			flash('Login Unsuccessful. Please check email and password', 'danger')
-	return render_template('login.html', title='Login', form=form)j
+	return render_template('login.html', title='Login', form=form)
 
 @user.route("/logout")
 def logout():
