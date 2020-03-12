@@ -5,9 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from studyup.config import Config
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+login_manager = LoginManager()
 
 from studyup.question.routes import photos
 
@@ -24,6 +26,7 @@ def create_app(config_class=Config):
 
     db.init_app(app) 
     bcrypt.init_app(app)
+    login_manager.init_app(app)
 
     #Blueprints
     from studyup.main.routes import main 
@@ -32,6 +35,9 @@ def create_app(config_class=Config):
     from studyup.discussion.routes import discussion
     from studyup.user.routes import user
     
+    login_manager.login_view = 'user.login'
+    login_manager.login_message_category = 'info'
+
     app.register_blueprint(main)
     app.register_blueprint(question)
     app.register_blueprint(practice)
