@@ -20,8 +20,13 @@ Purpose of the Software: To provide a collaborative learning
 """
 
 from datetime import datetime
-from studyup import db
+from studyup import db, login_manager
 from flask import current_app
+from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 #This creates a table for the questions being added to the module
 class Question(db.Model):
@@ -68,11 +73,11 @@ class Answer(db.Model):
         return f"Answer([{self.id}], '{self.choice_id}', [Q:{self.question_id}]')"
 
 # This creates a table for our users
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='static/img/user/default.jpg')
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     user_type = db.Column(db.Integer, nullable=False)
         #student_user = 1
