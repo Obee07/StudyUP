@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template, request, jsonify
-from studyup.models import Question, Choice, Answer
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+from studyup.models import Question, Choice, Answer, Comment, User
 from studyup import db
 from studyup.discussion.forms import CommentForm
+from flask_login import login_required, current_user
+from datetime import datetime
 
 discussion = Blueprint('discussion', __name__)
+comment = Blueprint('comment', __name__)
 
 #returns topic name of given topicNo
 @discussion.route("/api/topic/<int:topic_no>")
@@ -79,15 +82,39 @@ def questionPerTopic(topic_num):
 def select():
     return render_template('discussion.html')
 
-@discussion.route('/discussion/<int:question_id>')
-def viewQuestion(question_id):
+@discussion.route('/discussion/<int:question_id>', methods=['GET','POST'])
+@login_required
+def add_comment(question_id):
     form = CommentForm()
     question = Question.query.filter_by(id=question_id).first()
-    #query database of comment section, filter by thread_id=question_id.all
-    #comments = Comment.query.filter_by(thread_id=question_id).all()
-    #pass as variable
-    #comments=comments
+    if form.validate_on_submit():
+        comment = Comment()
+        comment.time_posted = datetime.utcnow()
+        comment.comment = form.body.data
+        user = User.query.filter_by(username=current_user.username).first()
+        comment.user_id = user.id
+        comment.question_id = question_id 
+        db.session.add(comment)
+        db.session.commit()
+        flash('Comment added!', 'success')
+        return redirect(url_for(''))#url for something.. same page? reload page?
+    return render_template('view-question.html', form=form, question=question)
 
-    #if POST, just commit to database
-    return render_template('view-question.html', question=question, form=form)
 
+
+# def viewQuestion(question_id):
+#     form = CommentForm()
+#     question = Question.query.filter_by(id=question_id).first()
+#     #query database of comment section, filter by thread_id=question_id.all
+#     #comments = Comment.query.filter_by(thread_id=question_id).all()
+#     #pass as variable
+#     #comments=comments
+
+#     #if POST, just commit to database
+
+#     image_file = url_for('static', filename=f'img/user/{current_user.image_file}')
+#     datetime_object = datetime.utcnow()
+#     timestamp = datetime_object.strftime("%d-%b-%Y (%H:%M:%S)")
+    # current_user.image_file = picture_file
+
+    # return render_template('view-question.html', image_file=image_file, form=form, timestamp=timestamp)
