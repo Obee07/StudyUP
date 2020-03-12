@@ -101,7 +101,7 @@ def add_comment(question_id):
     return render_template('view-question.html', form=form, question=question)
 
 
-
+# @discussion.route('/discussion/<int:question_id>')
 # def viewQuestion(question_id):
 #     form = CommentForm()
 #     question = Question.query.filter_by(id=question_id).first()
@@ -111,10 +111,11 @@ def add_comment(question_id):
 #     #comments=comments
 
 #     #if POST, just commit to database
+#     return render_template('view-question.html', question=question, form=form)
+
 
 #     image_file = url_for('static', filename=f'img/user/{current_user.image_file}')
 #     datetime_object = datetime.utcnow()
 #     timestamp = datetime_object.strftime("%d-%b-%Y (%H:%M:%S)")
-    # current_user.image_file = picture_file
-
-    # return render_template('view-question.html', image_file=image_file, form=form, timestamp=timestamp)
+#     current_user.image_file = picture_file
+#     return render_template('view-question.html', image_file=image_file, form=form, timestamp=timestamp)
