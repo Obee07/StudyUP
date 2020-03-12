@@ -80,6 +80,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     user_type = db.Column(db.Integer, nullable=False)
+    comments = db.relationship("Comment", backref="user_comments")
         #student_user = 1
         #moderator_user = 2
     #comments = db.relationship('Comment', back_populates='author')
@@ -93,9 +94,10 @@ class Comment(db.Model):
     time_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     comment = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', back_populates='comments')
     #author = db.relationship('User', back_populates='comments')
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
         # corresponds to question comment was asked on
 
     def __repr__(self):
-        return f"Comment('{self.date_posted}', '{self.comment}')"
+        return f"Comment('{self.time_posted}', '{self.comment}')"

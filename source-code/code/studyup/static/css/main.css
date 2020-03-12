@@ -263,3 +263,11 @@ textarea {
 .comment-text {
   flex-grow: 1;
 }
+
+.pic-ico {
+  height: 50px;
+}
+
+.pic-profile {
+  height: 100px;
+}

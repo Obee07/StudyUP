@@ -40,62 +40,32 @@ StudyUP | Discussion
         <div class="comment-thread">
             <div class="border-top mt-4 mb-2 my-3 ml-5 mr-5"></div>
 
-
-            <div class="comment-div ml-5 mr-5">
-                <div class="d-flex">
-                    <div class="profile-picture mx-3">
-                        pic.png
+            {% if comments %}
+                {% for comment in comments %}
+            
+                <div class="comment-div ml-5 mr-5">
+                    <div class="d-flex">
+                        <div class="profile-picture mx-3">
+                            <img src="{{ url_for('static', filename='img/user/' + comment.user.image_file) }}" alt="" class="pic-ico">
+                        </div>
+                        <div class="comment-text">
+                            <div class="comment-header d-flex justify-content-between">
+                                <strong>{{comment.user.username}}</strong>
+                                <p class="text-muted"> {{comment.time_posted.strftime('%Y-%m-%d')}}</p>
+                            </div>    
+                            <p class="comment"> {{comment.comment}} </p>
+                        </div>
                     </div>
-                    <div class="comment-text">
-                        <div class="comment-header d-flex justify-content-between">
-                            <strong>Cat</strong>
-                            <p class="text-muted">Insert Date Posted here</p>
-                        </div>    
-                        <p class="comment">Insert Comment here</p>
-                    </div>
+                    <div class="border-top mt-2 mb-3"></div>
                 </div>
-                <div class="border-top mt-2 mb-3"></div>
+                {% endfor %}
+            {% else %}
+            <div class="d-flex justify-content-center">
+            <p class="text-muted">No comments yet.</p>
             </div>
-
-            <div class="comment-div ml-5 mr-5">
-                <div class="d-flex">
-                    <div class="profile-picture mx-3">
-                        pic.png
-                    </div>
-                    <div class="comment-text">
-                        <div class="comment-header d-flex justify-content-between">
-                            <strong>Dog</strong>
-                            <p class="text-muted">Full Moon</p>
-                        </div>    
-                        <p class="comment">RUFF RUFF RUUUFF. RUFF RUFF BARK BARK-ARK</p>
-                    </div>
-                </div>
-                <div class="border-top mt-2 mb-3"></div>
-            </div>
-
-            <div class="comment-div ml-5 mr-5">
-                <div class="d-flex">
-                    <div class="profile-picture mx-3">
-                        pic.png
-                    </div>
-                    <div class="comment-text">
-                        <div class="comment-header d-flex justify-content-between">
-                            <strong>PENGUIN</strong>
-                            <p class="text-muted">Winter Solstice</p>
-                        </div>    
-                        <p class="comment">apolgy for bad english
-                            
-                            where were u wen club penguin die
-                            
-                            i was at house eating dorito when phone ring
-                            
-                            "Club penguin is kil"
-                            
-                            "no"</p>
-                    </div>
-                </div>
-                <div class="border-top mt-2 mb-3"></div>
-            </div>
+            {% endif %}
+            
+            
 
            
             
@@ -103,13 +73,15 @@ StudyUP | Discussion
             
         </div>
         
-        
+        <form action="" method="post">
+        {{ form.csrf_token }}
         <div class="form d-flex justify-content-center">
             {{ form.body(rows="4", cols="70", class="form-control ml-5 mr-5", placeholder="Add a comment") }}
         </div>
             <div class="d-flex justify-content-end mt-3 mr-5">
             {{ form.submit(class="btn btn-outline-primary") }}
             </div>
+        </form>
     
     <div class="mb-3"></div>
         

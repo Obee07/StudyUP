@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from studyup.models import Question, Choice, Answer, Comment, User
 from studyup import db
 from studyup.discussion.forms import CommentForm
@@ -97,8 +97,10 @@ def add_comment(question_id):
         db.session.add(comment)
         db.session.commit()
         flash('Comment added!', 'success')
-        return redirect(url_for(''))#url for something.. same page? reload page?
-    return render_template('view-question.html', form=form, question=question)
+        comments = Comment.query.filter_by(question_id=question_id).all()
+        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))#url for something.. same page? reload page?
+    comments = Comment.query.filter_by(question_id=question_id).all()
+    return render_template('view-question.html', form=form, question=question, comments=comments)
 
 
 # @discussion.route('/discussion/<int:question_id>')

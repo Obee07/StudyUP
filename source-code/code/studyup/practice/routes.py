@@ -3,6 +3,7 @@ from studyup import db
 from studyup.practice.forms import SelectForm, AnswerForm
 from studyup.models import Question, Choice, Answer
 from sqlalchemy import func
+from flask_login import login_user, current_user, logout_user, login_required
 
 practice = Blueprint('practice', __name__)
 
@@ -126,6 +127,7 @@ def getChoices(question_id):
 
 #selecting topics
 @practice.route("/practice", methods=['GET', 'POST'])
+@login_required
 def select():
     form = SelectForm()
 
