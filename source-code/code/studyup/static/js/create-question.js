@@ -177,25 +177,45 @@ Return value: None
 */
 function toggle2(num) {
     if (num === 'c1') {
-        toggleBtnOn(c_1, cList, ['btn-success', 'active'])
-        toggleBtnOn(fc_1, fcList, ['green-bg'])
-        toggleBtnOff(c_1, cList, ['btn-secondary'])
+            toggleBtnOn(c_1, cList, ['showChecked'])
+            toggleBtnOn(fc_1, fcList, ['green-bg'])
+            toggleBtnOff(c_1, cList, ['hideChecked'])
+            
+        } else if (num === 'c2') {
+            toggleBtnOn(c_2, cList, ['showChecked'])
+            toggleBtnOn(fc_2, fcList, ['green-bg'])
+            toggleBtnOff(c_2, cList, ['hideChecked'])
+            
+        } else if (num === 'c3') {
+            toggleBtnOn(c_3, cList, ['showChecked'])
+            toggleBtnOn(fc_3, fcList, ['green-bg'])
+            toggleBtnOff(c_3, cList, ['hideChecked'])
+            
+        } else if (num === 'c4') {
+            toggleBtnOn(c_4, cList, ['showChecked'])
+            toggleBtnOn(fc_4, fcList, ['green-bg'])
+            toggleBtnOff(c_4, cList, ['hideChecked'])
+        } 
+    // if (num === 'c1') {
+    //     toggleBtnOn(c_1, cList, ['showChecked'])
+    //     toggleBtnOn(fc_1, fcList, ['green-bg'])
+    //     toggleBtnOff(c_1, cList, ['hideChecked'])
         
-    } else if (num === 'c2') {
-        toggleBtnOn(c_2, cList, ['btn-success', 'active'])
-        toggleBtnOn(fc_2, fcList, ['green-bg'])
-        toggleBtnOff(c_2, cList, ['btn-secondary'])
+    // } else if (num === 'c2') {
+    //     toggleBtnOn(c_2, cList, ['btn-success', 'active'])
+    //     toggleBtnOn(fc_2, fcList, ['green-bg'])
+    //     toggleBtnOff(c_2, cList, ['btn-secondary'])
         
-    } else if (num === 'c3') {
-        toggleBtnOn(c_3, cList, ['btn-success', 'active'])
-        toggleBtnOn(fc_3, fcList, ['green-bg'])
-        toggleBtnOff(c_3, cList, ['btn-secondary'])
+    // } else if (num === 'c3') {
+    //     toggleBtnOn(c_3, cList, ['btn-success', 'active'])
+    //     toggleBtnOn(fc_3, fcList, ['green-bg'])
+    //     toggleBtnOff(c_3, cList, ['btn-secondary'])
         
-    } else if (num === 'c4') {
-        toggleBtnOn(c_4, cList, ['btn-success', 'active'])
-        toggleBtnOn(fc_4, fcList, ['green-bg'])
-        toggleBtnOff(c_4, cList, ['btn-secondary']) 
-    } 
+    // } else if (num === 'c4') {
+    //     toggleBtnOn(c_4, cList, ['btn-success', 'active'])
+    //     toggleBtnOn(fc_4, fcList, ['green-bg'])
+    //     toggleBtnOff(c_4, cList, ['btn-secondary']) 
+    // } 
 }
 
 

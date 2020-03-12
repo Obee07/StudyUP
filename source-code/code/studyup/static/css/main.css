@@ -238,7 +238,20 @@ label[for*="topic"]:hover {
   transform: scale(1.05);
 }
 
+
 .correct-answer {
   transform: scale(1.05);
   font-weight: bold;
+}
+
+.showChecked {
+  display: block;
+}
+
+.hideChecked {
+  display: none;
+}
+
+.full-width {
+  width: 100%;
 }

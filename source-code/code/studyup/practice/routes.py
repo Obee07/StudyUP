@@ -171,32 +171,15 @@ def test():
         session['practice-length'] = length
         session.pop('practice-topics')
 
-        #SPRINT 3
-        '''
-        # Add a new column to database table of Question "time"
-        # for simplicity, make the minimum to 1 minute na lang 
-        # Add new form (radiofield or dropdown just not textfield) 
-        # in question/forms.py then modify template for the create question 
-        # (add default parameter as 1 minute in forms.py)
 
-        # modify question/routes.py appropriately
-
-        modify template db if you want to check if its time is in the database (add time column)
-
-        # get the time value of each question 
-        # then sum up the time value of each question
-        # convert the sum of the time into seconds (Javascript in the template handles the conversion
-                                                    in the timer display)
-        add a variable timeLeft here and pass it below
-        timeLeft=timeLeft
-        uncomment line 107 in practice-test.html to test if it gets passed properly
-        '''
         timeLeft=time
         print("GOING TO ANSWER")
         print("questionIdArray")
         print(questionIdArray)
+      
+      
+        return render_template('practice-test.html', formArray=formArray, questionArray=questionArray, questionIdArray=questionIdArray, length=length, timeLeft=time)
 
-        return render_template('practice-test.html', formArray=formArray, questionArray=questionArray, questionIdArray=questionIdArray, length=length)
     
     else:
         if request.method == "POST":
