@@ -18,7 +18,13 @@ StudyUP | Create Question
 			<form method="POST" action="" enctype="multipart/form-data"> 
 				{{ form.hidden_tag() }}
 				<fieldset class="form-group">
-					<legend class="border-bottom mb-4">Account Info</legend>
+					<legend class="border-bottom mb-4">Account Info: 
+						{% if current_user.user_type == 1 %}
+							Student
+						{% else %}
+							Moderator
+						{% endif %}
+					</legend>
 					<div class="form-group">
 						{{ form.username.label(class="form-control-label") }}
 	

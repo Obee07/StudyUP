@@ -42,7 +42,6 @@ StudyUP | Discussion
 
             {% if comments %}
                 {% for comment in comments %}
-            
                 <div class="comment-div ml-5 mr-5">
                     <div class="d-flex">
                         <div class="profile-picture mx-3">
@@ -51,6 +50,11 @@ StudyUP | Discussion
                         <div class="comment-text">
                             <div class="comment-header d-flex justify-content-between">
                                 <strong>{{comment.user.username}}</strong>
+                                {% if comment.user.user_type == 1 %}
+                                    Student
+                                {% else %}
+                                    Moderator
+                                {% endif %}
                                 <p class="text-muted"> {{comment.time_posted.strftime('%Y-%m-%d')}}</p>
                             </div>    
                             <p class="comment"> {{comment.comment}} </p>

@@ -98,7 +98,7 @@ def add_comment(question_id):
         db.session.commit()
         flash('Comment added!', 'success')
         comments = Comment.query.filter_by(question_id=question_id).all()
-        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))#url for something.. same page? reload page?
+        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))
     comments = Comment.query.filter_by(question_id=question_id).all()
     return render_template('view-question.html', form=form, question=question, comments=comments)
 

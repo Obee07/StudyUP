@@ -22,16 +22,19 @@
     </button>
     <div class="navbar-collapse collapse justify-content-stretch" id="navbar7">
         <ul class="navbar-nav ml-auto">
+            {% if current_user.is_authenticated %}
+
+            {% if current_user. user_type == 2 %}
             <li class="nav-item">
                 <a name="btn-question" class="nav-link" href="{{url_for('question.create_question')}}"><strong>Create Question</strong></a>
             </li>
+            {% endif %}
             <li class="nav-item">
                 <a name="btn-practice" class="nav-link click-exit" href="{{url_for('practice.select')}}"><strong>Practice</strong></a>
             </li>
             <li class="nav-item">
                 <a name="btn-discuss" class="nav-link click-exit" href="{{url_for('discussion.select')}}"><strong>Discuss</strong></a>
             </li>
-            {% if current_user.is_authenticated %}
               <li class="nav-item">
                 <a name="btn-account" class="nav-link click-exit" href="{{url_for('user.account')}}"><strong>Account</strong></a>
               </li>
