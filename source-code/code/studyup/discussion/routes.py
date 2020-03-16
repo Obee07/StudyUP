@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, abort
 from studyup.models import Question, Choice, Answer, Comment, User
 from studyup import db
 from studyup.discussion.forms import CommentForm
@@ -102,22 +102,18 @@ def add_comment(question_id):
     comments = Comment.query.filter_by(question_id=question_id).all()
     return render_template('view-question.html', form=form, question=question, comments=comments)
 
+@discussion.route('/discussion/<int:question_id>/edit/<int:comment_id>', methods=['GET','POST'])
+@login_required
+def edit_comment(question_id, comment_id):
+    question = Question.query.filter_by(id=question_id).first()
+    comments = Comment.query.filter_by(question_id=question_id).all()
+    comment = Comment.query.filter_by(id=comment_id).first()
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment.comment = form.body.data
+        comment.edited = True
+        db.session.commit()
+        flash('Comment edited', 'success')
+    return render_template('view-question.html', question=question, form=form, comments=comments)
 
-# @discussion.route('/discussion/<int:question_id>')
-# def viewQuestion(question_id):
-#     form = CommentForm()
-#     question = Question.query.filter_by(id=question_id).first()
-#     #query database of comment section, filter by thread_id=question_id.all
-#     #comments = Comment.query.filter_by(thread_id=question_id).all()
-#     #pass as variable
-#     #comments=comments
-
-#     #if POST, just commit to database
-#     return render_template('view-question.html', question=question, form=form)
-
-
-#     image_file = url_for('static', filename=f'img/user/{current_user.image_file}')
-#     datetime_object = datetime.utcnow()
-#     timestamp = datetime_object.strftime("%d-%b-%Y (%H:%M:%S)")
-#     current_user.image_file = picture_file
-#     return render_template('view-question.html', image_file=image_file, form=form, timestamp=timestamp)
+# current_user_comments = [comment for comment in comments if comment.user_id == current_user.id]

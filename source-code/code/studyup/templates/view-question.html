@@ -56,6 +56,12 @@ StudyUP | Discussion
                                     Moderator
                                 {% endif %}
                                 <p class="text-muted"> {{comment.time_posted.strftime('%Y-%m-%d')}}</p>
+                                {% if comment.edited == True %}
+                                    * comment was edited *
+                                {% endif %}
+                                {% if current_user.id == comment.user.id %}
+                                    Edit
+                                {% endif %}
                             </div>    
                             <p class="comment"> {{comment.comment}} </p>
                         </div>
