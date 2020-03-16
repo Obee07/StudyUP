@@ -120,3 +120,16 @@ def edit_comment(question_id, comment_id):
 # Option to edit comments
 # 1. Have the edit function appear in same page (view-question.html) when edit is clicked
 # 2. When click edit button, open a new HTML page (edit-question.html) to edit comment. Submit and redirect back to add_comment()
+
+@discussion.route('/discussion/<int:question_id>/delete/<int:comment_id>', methods=['POST'])
+@login_required
+def delete_comment(question_id,comment_id):
+    question = Question.query.filter_by(id=question_id).first()
+    comments = Comment.query.filter_by(question_id=question_id).all()
+    comment = Comment.query.filter_by(id=comment_id).first()
+    if current_user.user_type != 2: ## not a moderator 
+        abort(403)
+    db.session.delete(comment)
+    db.session.commit()
+    flash('Comment has been deleted!', 'success')
+    return redirect(url_for('discussion.add_comment',question_id=question_id, comments=comments))
