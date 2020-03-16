@@ -19,12 +19,13 @@ Client Group: Ma'am Solamo, CS 192 Class
 Purpose of the Software: To provide a collaborative learning
     environment in the courses of UP Diliman.
 """
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from studyup import db
 from studyup.question.forms import QuestionForm
 from studyup.models import Question, Choice
 from flask_uploads import UploadSet, IMAGES
 from datetime import datetime
+from flask_login import current_user
 
 question = Blueprint('question', __name__) #variable for questions
 photos = UploadSet('photos', IMAGES) #variable for the images
@@ -128,7 +129,8 @@ Return value: render to html
 @question.route("/create-question", methods=['GET', 'POST'])
 def create_question():
     form = QuestionForm()
-
+    if current_user.user_type != 2: ## if not moderator
+        abort(403)
     if request.method == "POST":
         print("QUESTION MADE!")
         q = Question()
