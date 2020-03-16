@@ -114,6 +114,7 @@ def edit_comment(question_id, comment_id):
         comment.edited = True
         db.session.commit()
         flash('Comment edited', 'success')
+        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))
     return render_template('view-question.html', question=question, form=form, comments=comments)
 
 # current_user_comments = [comment for comment in comments if comment.user_id == current_user.id]
