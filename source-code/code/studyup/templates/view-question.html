@@ -60,7 +60,7 @@ StudyUP | Discussion
                                     * comment was edited *
                                 {% endif %}
                                 {% if current_user.id == comment.user.id %}
-                                    Edit
+                                    <a href="{{ url_for('discussion.edit_comment', question_id=question.id, comment_id=comment.id) }}">Edit</a>
                                 {% endif %}
                             </div>    
                             <p class="comment"> {{comment.comment}} </p>

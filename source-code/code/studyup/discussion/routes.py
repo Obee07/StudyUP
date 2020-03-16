@@ -117,4 +117,6 @@ def edit_comment(question_id, comment_id):
         return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))
     return render_template('view-question.html', question=question, form=form, comments=comments)
 
-# current_user_comments = [comment for comment in comments if comment.user_id == current_user.id]
+# Option to edit comments
+# 1. Have the edit function appear in same page (view-question.html) when edit is clicked
+# 2. When click edit button, open a new HTML page (edit-question.html) to edit comment. Submit and redirect back to add_comment()
