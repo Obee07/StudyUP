@@ -109,6 +109,8 @@ def edit_comment(question_id, comment_id):
     comments = Comment.query.filter_by(question_id=question_id).all()
     comment = Comment.query.filter_by(id=comment_id).first()
     form = CommentForm()
+    if comment.user != current_user:
+        abort(403)
     if form.validate_on_submit():
         comment.comment = form.body.data
         comment.edited = True
