@@ -99,6 +99,7 @@ def add_comment(question_id):
         flash('Comment added!', 'success')
         comments = Comment.query.filter_by(question_id=question_id).all()
         return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments, tempRemove=0))
+
     comments = Comment.query.filter_by(question_id=question_id).all()
     return render_template('view-question.html', form=form, question=question, comments=comments, tempRemove=0)
 
@@ -126,10 +127,10 @@ def edit_comment(question_id, comment_id):
 @discussion.route('/discussion/<int:question_id>/delete/<int:comment_id>', methods=['POST'])
 @login_required
 def delete_comment(question_id,comment_id):
-    question = Question.query.filter_by(id=question_id).first()
+    # question = Question.query.filter_by(id=question_id).first()
     comments = Comment.query.filter_by(question_id=question_id).all()
     comment = Comment.query.filter_by(id=comment_id).first()
-    if current_user.user_type != 2: ## not a moderator 
+    if current_user.user_type != 2: # not a moderator 
         abort(403)
     db.session.delete(comment)
     db.session.commit()

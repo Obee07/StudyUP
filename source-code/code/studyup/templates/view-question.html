@@ -15,6 +15,10 @@ StudyUP | Discussion
                 <div class="card-title"><h5 class="mb-4"> {{ question.body }} </h5></div>
             </div>
 
+                {% if editComment %}
+                  <p id="editComment" class="hideRadioBtn"> {{ editComment.comment }} </p> 
+                {% endif %}
+
                 {% if question.image_file %}
                 <div> <img src="{{ url_for('static', filename='img/' + question.image_file) }}" alt=""> </div>
                 {% endif %}
@@ -54,46 +58,45 @@ StudyUP | Discussion
                             <img src="{{ url_for('static', filename='img/user/' + comment.user.image_file) }}" alt="" class="pic-ico">
                         </div>
                         <div class="comment-text">
-                            <div class="comment-header d-flex justify-content-between">
+                            <div class="comment-header d-sm-flex justify-content-between h-25 mb-1">
+                                <div>
                                 <strong>{{comment.user.username}}</strong>
                                 {% if comment.user.user_type == 1 %}
-                                    Student
+                                    <span class="badge badge-pill badge-secondary">Student</span>
                                 {% else %}
-                                    Moderator
+                                <span class="badge badge-pill badge-primary">Moderator</span>
                                 {% endif %}
-                                <p class="text-muted"> {{comment.time_posted.strftime('%Y-%m-%d')}}</p>
-                                {% if comment.edited == True %}
-                                    * comment was edited *
-                                {% endif %}
-                                {% if current_user.id == comment.user.id %}
-                                    <a href="{{ url_for('discussion.edit_comment', question_id=question.id, comment_id=comment.id) }}">Edit</a>
-                                {% endif %}
-                                {% if current_user.user_type == 2 %}
-                                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Flag</button>
-                                {% endif %}
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel">Delete Comment?</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <form action="{{ url_for('discussion.delete_comment', question_id=question.id,comment_id=comment.id) }}" method="POST">
-                                            <input class="btn btn-danger" type="submit" value="Delete">
-                                        </form>
-                                        </div>
-                                    </div>
-                                    </div>
                                 </div>
 
+                                <div>
+                                <p class=" text-sm-center text-muted"> <small>{{comment.time_posted.strftime('%d %b %y')}}
+                                {% if comment.edited == True %}
+                                    (edited)
+                                {% endif %}</small>
+                                </p>
+                                </div>
+
+                                    
+                                
+
                             </div>    
+                            
+                        
+                        <div>
                             <p class="comment"> {{comment.comment}} </p>
+                        </div>
+
+                        <div>
+                            {% if current_user.id == comment.user.id %}
+                                    <a href="{{ url_for('discussion.edit_comment', question_id=question.id, comment_id=comment.id) }}">Edit</a>
+                            {% endif %}
+
+                            {% if current_user.user_type == 2 %}
+                                    <button type="button" class="btn btn-danger btn-sm m-1 btnDelete" value={{comment.id}} data-toggle="modal" data-target="#deleteModal">Flag</button>
+                            {% endif %}
+
+                        </div>
+
                         </div>
                     </div>
                     <div class="border-top mt-2 mb-3"></div>
@@ -123,7 +126,7 @@ StudyUP | Discussion
         <div class="form d-flex justify-content-center">
 
             {% if tempRemove != 0 %}
-            {{ form.body(id="comment-box", rows="4", cols="70", class="form-control ml-5 mr-5", placeholder=editComment.comment) }}
+            {{ form.body(id="comment-box", rows="4", cols="70", class="form-control ml-5 mr-5") }}
             {% else %}
             {{ form.body(rows="4", cols="70", class="form-control ml-5 mr-5", placeholder="Add a comment") }}
             {% endif %}
@@ -146,6 +149,25 @@ StudyUP | Discussion
 
 </div>
 
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Comment?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form id="modalDeleteForm" action="{{ url_for('discussion.delete_comment', question_id=question.id,comment_id=0) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+        </div>
+    </div>
+    </div>
+</div>
+
 
 
 
@@ -164,7 +186,7 @@ window.addEventListener('load', function() {
         
         fetch('/api/choices' + '-' + {{question.id}}).then(function(response) { 
         response.json().then(function(data) {
-        console.log(data.correctText)
+        // console.log(data.correctText)
         let fc_1 = document.getElementById('fc-'+ '0')
         let fc_2 = document.getElementById('fc-'+ '1')
         let fc_3 = document.getElementById('fc-'+ '2')
@@ -189,13 +211,21 @@ window.addEventListener('load', function() {
     });
 
     let isEditing = {{tempRemove}}
-    
-
     if (isEditing !== 0) {
-        // console.log(isEditing)
-        // console.log(tempStr)
+        document.getElementById('comment-box').innerText = document.getElementById('editComment').innerText
        
     }
+
+    let btnDelete = document.getElementsByClassName('btnDelete')
+
+    let i = 0;
+    for (i = 0; i < btnDelete.length; i++) {
+        btnDelete[i].addEventListener("click", (e) => {
+            // console.log(e.target.value)
+            document.getElementById('modalDeleteForm').action = "/discussion/" + {{question.id}} + "/delete/" + e.target.value
+        })
+    }
+
     
 }, false);
 })();
