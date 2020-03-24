@@ -98,9 +98,9 @@ def add_comment(question_id):
         db.session.commit()
         flash('Comment added!', 'success')
         comments = Comment.query.filter_by(question_id=question_id).all()
-        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))
+        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments, tempRemove=0))
     comments = Comment.query.filter_by(question_id=question_id).all()
-    return render_template('view-question.html', form=form, question=question, comments=comments)
+    return render_template('view-question.html', form=form, question=question, comments=comments, tempRemove=0)
 
 @discussion.route('/discussion/<int:question_id>/edit/<int:comment_id>', methods=['GET','POST'])
 @login_required
@@ -116,8 +116,8 @@ def edit_comment(question_id, comment_id):
         comment.edited = True
         db.session.commit()
         flash('Comment edited', 'success')
-        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))
-    return render_template('view-question.html', question=question, form=form, comments=comments)
+        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments, tempRemove=0))
+    return render_template('view-question.html', question=question, form=form, comments=comments, tempRemove=comment_id, editComment=comment)
 
 # Option to edit comments
 # 1. Have the edit function appear in same page (view-question.html) when edit is clicked
