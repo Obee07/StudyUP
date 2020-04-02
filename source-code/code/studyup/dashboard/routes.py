@@ -1,12 +1,8 @@
-import secrets, os
-from PIL import Image
-from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
-from studyup import db, bcrypt
-from studyup.user.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from flask import Blueprint, render_template, flash, redirect, url_for, abort
+from studyup import db
 from studyup.main.routes import index
 from studyup.models import User, Question, Choice, Answer, Comment
-from sqlalchemy import func
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import current_user, login_required
 
 dashboard = Blueprint('dashboard', __name__)
 
