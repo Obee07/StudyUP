@@ -11,11 +11,12 @@
 <table class="table table-hover table-condensed table-sm table-bordered">
     <thead>
         <tr>
-            <th>id</th>
-            <th>body</th>
-            <th>solution_id</th>
-            <th>image_file</th>
-            <th>topic_no</th>
+            <th style="text-align:center">id</th>
+            <th style="text-align:center">body</th>
+            <th style="text-align:center">solution_id</th>
+            <th style="text-align:center">image_file</th>
+            <th></th>
+            <th style="text-align:center">topic_no</th>
             <th></th>
             <th></th>
             <th></th>
@@ -24,17 +25,17 @@
     <tbody>
     {% for question in questions %}
     <tr>
-        <td>{{question.id}}</td>
+        <td style="text-align:center">{{question.id}}</td>
         <td>{{question.body}}</td>
-        <td>{{question.solution_id}}</td>
-        <td>{{question.image_file}}</td>
-        <td>{{question.topic_no}}</td>
-        <td><a class="btn btn-outline-primary" href='/discussion/{{question.id}}' target="_blank">View Question</a></td>
-        <td><a class="btn btn-outline-primary" href='/question/update/{{question.id}}' target="_blank">Edit Question</a></td>
-        <td>
+        <td style="text-align:center">{{question.solution_id}}</td>
+        <td style="text-align:center">{{question.image_file}}</td>
+        <td style="text-align:center"><a class="btn btn-danger btn-sm" href='/discussion/delete_photo/{{question.id}}' role="button">Delete Photo</a></td>
+        <td style="text-align:center">{{question.topic_no}}</td>
+        <td style="text-align:center"><a class="btn btn-outline-primary" href='/discussion/{{question.id}}' target="_blank">View Question</a></td>
+        <td style="text-align:center"><a class="btn btn-outline-primary" href='/question/update/{{question.id}}' target="_blank">Edit Question</a></td>
+        <td style="text-align:center">
             <button value={{question.id}} class="btn btn-danger btn-sm btnDeleteQuestion" data-toggle="modal" data-target="#deleteModalQuestion">Delete Question</button>
         </td>
-    
     <tr>
     {% endfor %} 
     </tbody>
@@ -44,10 +45,10 @@
 <table class="table table-hover table-condensed table-sm table-bordered">
     <thead>
         <tr>
-            <th>id</th>
-            <th>username</th>
-            <th>email</th>
-            <th>user type</th>
+            <th style="text-align:center">id</th>
+            <th style="text-align:center">username</th>
+            <th style="text-align:center">email</th>
+            <th style="text-align:center">user type</th>
             <th></th>
               
         </tr>
@@ -56,11 +57,11 @@
     {% for user in users %}
     <tr>
         
-        <td>{{user.id}}</td>
-        <td>{{user.username}}</td>
-        <td>{{user.email}}</td>
+        <td style="text-align:center">{{user.id}}</td>
+        <td style="text-align:center">{{user.username}}</td>
+        <td style="text-align:center">{{user.email}}</td>
         
-        <td>
+        <td style="text-align:center">
             
             {% if user.user_type == 1 %}
             <span class="badge badge-pill badge-secondary">Student</span>
@@ -70,7 +71,7 @@
             
             </td>
 
-        <td>
+        <td style="text-align:center">
             <button value={{user.id}} class="btn btn-danger btn-sm btnDeleteUser" data-toggle="modal" data-target="#deleteModalUser">Delete Account</button>
         </td>
         

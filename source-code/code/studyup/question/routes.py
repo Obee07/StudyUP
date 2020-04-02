@@ -26,6 +26,7 @@ from studyup.models import Question, Choice
 from flask_uploads import UploadSet, IMAGES
 from datetime import datetime
 from flask_login import current_user
+from studyup.dashboard.routes import dashboard
 
 question = Blueprint('question', __name__) #variable for questions
 photos = UploadSet('photos', IMAGES) #variable for the images
@@ -202,14 +203,17 @@ def create_question():
         flash('Your question has been added!','success')
        
         return redirect(url_for('question.success'))
-        
-        
-    
-    
     return render_template('question.html', form=form)
 
-
-
+@question.route('/discussion/delete_photo/<int:question_id>', methods=['GET','POST'])
+def delete_photo(question_id):
+    question = Question.query.filter_by(id=question_id).first()
+    if current_user.user_type != 2: # not a moderator 
+        abort(403)
+    question.image_file = None
+    db.session.commit()
+    flash('Photo has been deleted!', 'success')
+    return redirect(url_for('dashboard.mod_dashboard'))
 
 
 
