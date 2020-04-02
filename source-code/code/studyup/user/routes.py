@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request
 from studyup import db, bcrypt
 from studyup.user.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from studyup.main.routes import index
-from studyup.models import User, Question, Choice, Answer, Comment
+from studyup.models import User
 from sqlalchemy import func
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -89,60 +89,3 @@ def account():
 		form.email.data = current_user.email
 	image_file = url_for('static', filename=f'img/user/{current_user.image_file}')
 	return render_template('account.html', title='Account', image_file=image_file, form=form)
-
-@user.route("/dashboard", methods=['GET', 'POST'])
-@login_required
-def dashboard():
-	users = User.query.all()
-	questions = Question.query.all()
-	choices = Choice.query.all()
-	answers = Answer.query.all()
-	comments = Comment.query.all()
-	return render_template('dashboard.html', users=users, questions=questions, choices=choices, answers=answers, comments=comments)
-
-
-@user.route("/delete-user/<int:user_id>", methods=['GET', 'POST'])
-@login_required
-def delete_user(user_id):
-	user = User.query.filter_by(id=user_id).first()
-	comments = Comment.query.filter_by(user_id=user_id).all()
-
-	for comment in comments:
-		db.session.delete(comment)
-	db.session.delete(user)
-	db.session.commit()
-	flash('User has been deleted!', 'success')
-
-
-	return redirect(url_for('user.dashboard'))
-
-@user.route("/delete-question/<int:q_id>", methods=['GET', 'POST'])
-@login_required
-def delete_question(q_id):
-	question = Question.query.filter_by(id=q_id).first()
-	comments = Comment.query.filter_by(user_id=q_id).all()
-
-	for comment in comments:
-		db.session.delete(comment)
-	db.session.delete(question)
-	db.session.commit()
-	flash('Question has been deleted!', 'success')
-
-
-	return redirect(url_for('user.dashboard'))
-
-
-
-
-
-
-@user.route("/reset", methods=['GET', 'POST'])
-@login_required
-def reset():
-	User.query.delete()
-	Question.query.delete()
-	Choice.query.delete()
-	Answer.query.delete()
-	Comment.query.delete()
-	db.session.commit()
-	return render_template('index.html')

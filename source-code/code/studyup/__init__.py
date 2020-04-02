@@ -34,6 +34,7 @@ def create_app(config_class=Config):
     from studyup.practice.routes import practice
     from studyup.discussion.routes import discussion
     from studyup.user.routes import user
+    from studyup.dashboard.routes import dashboard
     
     login_manager.login_view = 'user.login'
     login_manager.login_message_category = 'info'
@@ -43,5 +44,6 @@ def create_app(config_class=Config):
     app.register_blueprint(practice)
     app.register_blueprint(discussion)
     app.register_blueprint(user)
+    app.register_blueprint(dashboard)
 
     return app

@@ -95,7 +95,7 @@
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <form action="{{ url_for('user.reset') }}" method="POST">
+        <form action="{{ url_for('dashboard.reset') }}" method="POST">
             <input class="btn btn-danger" type="submit" value="Delete">
         </form>
         </div>
@@ -137,7 +137,7 @@
         
         <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <form id="questionModalDeleteForm" action="{{url_for('user.reset')}}" method="POST">
+        <form id="questionModalDeleteForm" action="{{url_for('dashboard.reset')}}" method="POST">
             <input class="btn btn-danger" type="submit" value="Delete">
         </form>
         </div>
