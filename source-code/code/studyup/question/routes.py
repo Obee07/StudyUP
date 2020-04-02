@@ -233,7 +233,11 @@ def update_question(question_id):
         flash('Question has been updated', 'success')
         return redirect(url_for('dashboard.mod_dashboard'))
     elif request.method == 'GET':
-    	form.body.data = question.body
+        form.body.data = question.body
+        form.correct.data = correct.body
+        form.other_1.data = other_choices[0].body
+        form.other_2.data = other_choices[1].body
+        form.other_3.data = other_choices[2].body
 
     if question.image_file is not None:
         image_file = url_for('static', filename=f'img/{question.image_file}')
@@ -250,7 +254,7 @@ def delete_photo(question_id):
     question.image_file = None
     db.session.commit()
     flash('Photo has been deleted!', 'success')
-    return redirect(url_for('dashboard.mod_dashboard'))
+    return redirect(url_for('question.update_question', question_id=question_id))
 
 
 

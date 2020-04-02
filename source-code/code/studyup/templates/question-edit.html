@@ -81,6 +81,7 @@ StudyUP | Edit Question
                         {% if image_file != None%}
                             <p>Current Image:</p>
                             <img src="{{ image_file }}", style="max-width:100%;">
+                            <a class="btn btn-danger btn-sm" href='/question/delete_photo/{{question.id}}' role="button" style="float: right;">Delete Photo</a>
                         {% else %}
                             <p>No image uploaded. Upload a photo</p>
                         {% endif %}
