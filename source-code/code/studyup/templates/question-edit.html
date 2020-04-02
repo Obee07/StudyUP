@@ -15,7 +15,7 @@ StudyUP | Edit Question
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Question ID: {{question.id}}</legend>
                     <div class="form-group">
-                        <h4>{{ form.body.label(class="form-control-label") }}</h2>
+                        <h4>{{ form.body.label(class="form-control-label") }}</h4>
                         {% if form.body.errors %}
                             {{ form.body(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
@@ -27,7 +27,54 @@ StudyUP | Edit Question
                             {{ form.body(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
+                    <div class="form-group">
+                        <h4>Correct Answer</h4>
+                        {% if form.correct.errors %}
+                            {{ form.correct(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.correct.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.correct(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <h4>Other Choices</h4>
+                            {% if form.other_1.errors %}
+                                {{ form.other_1(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.other_1.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.other_1(class="form-control form-control-lg") }}
+                            {% endif %}
+                            
+                            {% if form.other_2.errors %}
+                                {{ form.other_2(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.other_2.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.other_2(class="form-control form-control-lg") }}
+                            {% endif %}
 
+                            {% if form.other_3.errors %}
+                                {{ form.other_3(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.other_3.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.other_3(class="form-control form-control-lg") }}
+                            {% endif %}
+                    </div>
                     <div class="form-group">
                         <h4>{{ form.picture.label() }}</h4>
 

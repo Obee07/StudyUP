@@ -22,7 +22,7 @@ Purpose of the Software: To provide a collaborative learning
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from studyup import db
 from studyup.question.forms import QuestionForm, UpdateQuestionForm
-from studyup.models import Question, Choice
+from studyup.models import Question, Choice, Answer
 from flask_uploads import UploadSet, IMAGES
 from datetime import datetime
 from flask_login import current_user
@@ -205,13 +205,26 @@ def create_question():
         return redirect(url_for('question.success'))
     return render_template('question.html', form=form)
 
+def get_choices(solution_id, question_id):
+    correct = Choice.query.filter_by(id=solution_id).first()
+    other_choices = Choice.query.filter_by(question_id=question_id).all()
+    other_choices.remove(correct)
+    return correct, other_choices
+
 @question.route('/question/update/<int:question_id>', methods=['GET','POST'])
 def update_question(question_id):
     form = UpdateQuestionForm()
     question = Question.query.filter_by(id=question_id).first()
+    correct, other_choices = get_choices(question.solution_id, question_id)
 
     if form.validate_on_submit():
         question.body = form.body.data
+
+        correct.body = form.correct.data
+        other_choices[0].body = form.other_1.data
+        other_choices[1].body = form.other_2.data
+        other_choices[2].body = form.other_3.data
+
         if form.picture.data:
             filename = photos.save(form.picture.data)
             file_url = photos.url(filename)
