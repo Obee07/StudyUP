@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+StudyUP | Edit Question
+{% endblock title %}
+
+{% block body %}
+    <h1 class="jumbotron">Edit Question</h1>
+
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="content-section col-10">
+            <form method="POST" action="" enctype="multipart/form-data"> 
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Question ID: {{question.id}}</legend>
+                    <div class="form-group">
+                        <h4>{{ form.body.label(class="form-control-label") }}</h4>
+                        {% if form.body.errors %}
+                            {{ form.body(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.body.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.body(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <h4>Correct Answer</h4>
+                        {% if form.correct.errors %}
+                            {{ form.correct(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.correct.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.correct(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <h4>Other Choices</h4>
+                            {% if form.other_1.errors %}
+                                {{ form.other_1(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.other_1.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.other_1(class="form-control form-control-lg") }}
+                            {% endif %}
+                            
+                            {% if form.other_2.errors %}
+                                {{ form.other_2(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.other_2.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.other_2(class="form-control form-control-lg") }}
+                            {% endif %}
+
+                            {% if form.other_3.errors %}
+                                {{ form.other_3(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.other_3.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.other_3(class="form-control form-control-lg") }}
+                            {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <h4>{{ form.picture.label() }}</h4>
+
+                        {% if image_file != None%}
+                            <p>Current Image:</p>
+                            <img src="{{ image_file }}", style="max-width:100%;">
+                            <a class="btn btn-danger btn-sm" href='/question/delete_photo/{{question.id}}' role="button" style="float: right;">Delete Photo</a>
+                        {% else %}
+                            <p>No image uploaded. Upload a photo</p>
+                        {% endif %}
+                        
+                        {{ form.picture(class="form-control-file") }}
+                        {% if form.picture.errors %}
+                            {% for error in form.picture.errors %}
+                                <span class="text-danger">{{ error }}</span></br>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock body %}

@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request
 from studyup import db, bcrypt
 from studyup.user.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from studyup.main.routes import index
-from studyup.models import User 
+from studyup.models import User
 from sqlalchemy import func
 from flask_login import login_user, current_user, logout_user, login_required
 

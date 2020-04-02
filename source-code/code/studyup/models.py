@@ -93,6 +93,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     time_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     comment = db.Column(db.Text, nullable=False)
+    edited = db.Column(db.Boolean, unique=False, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', back_populates='comments')
     #author = db.relationship('User', back_populates='comments')

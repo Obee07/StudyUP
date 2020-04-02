@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, abort
 from studyup.models import Question, Choice, Answer, Comment, User
 from studyup import db
 from studyup.discussion.forms import CommentForm
@@ -98,26 +98,37 @@ def add_comment(question_id):
         db.session.commit()
         flash('Comment added!', 'success')
         comments = Comment.query.filter_by(question_id=question_id).all()
-        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments))#url for something.. same page? reload page?
+        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments, tempRemove=0))
+
     comments = Comment.query.filter_by(question_id=question_id).all()
-    return render_template('view-question.html', form=form, question=question, comments=comments)
+    return render_template('view-question.html', form=form, question=question, comments=comments, tempRemove=0)
 
+@discussion.route('/discussion/<int:question_id>/edit/<int:comment_id>', methods=['GET','POST'])
+@login_required
+def edit_comment(question_id, comment_id):
+    question = Question.query.filter_by(id=question_id).first()
+    comments = Comment.query.filter_by(question_id=question_id).all()
+    comment = Comment.query.filter_by(id=comment_id).first()
+    form = CommentForm()
+    if comment.user != current_user:
+        abort(403)
+    if form.validate_on_submit():
+        comment.comment = form.body.data
+        comment.edited = True
+        db.session.commit()
+        flash('Comment edited', 'success')
+        return redirect(url_for('discussion.add_comment', question_id=question_id, comments=comments, tempRemove=0))
+    return render_template('view-question.html', question=question, form=form, comments=comments, tempRemove=comment_id, editComment=comment)
 
-# @discussion.route('/discussion/<int:question_id>')
-# def viewQuestion(question_id):
-#     form = CommentForm()
-#     question = Question.query.filter_by(id=question_id).first()
-#     #query database of comment section, filter by thread_id=question_id.all
-#     #comments = Comment.query.filter_by(thread_id=question_id).all()
-#     #pass as variable
-#     #comments=comments
-
-#     #if POST, just commit to database
-#     return render_template('view-question.html', question=question, form=form)
-
-
-#     image_file = url_for('static', filename=f'img/user/{current_user.image_file}')
-#     datetime_object = datetime.utcnow()
-#     timestamp = datetime_object.strftime("%d-%b-%Y (%H:%M:%S)")
-#     current_user.image_file = picture_file
-#     return render_template('view-question.html', image_file=image_file, form=form, timestamp=timestamp)
+@discussion.route('/discussion/<int:question_id>/delete/<int:comment_id>', methods=['POST'])
+@login_required
+def delete_comment(question_id,comment_id):
+    # question = Question.query.filter_by(id=question_id).first()
+    comments = Comment.query.filter_by(question_id=question_id).all()
+    comment = Comment.query.filter_by(id=comment_id).first()
+    if current_user.user_type != 2: # not a moderator 
+        abort(403)
+    db.session.delete(comment)
+    db.session.commit()
+    flash('Comment has been deleted!', 'success')
+    return redirect(url_for('discussion.add_comment',question_id=question_id, comments=comments))

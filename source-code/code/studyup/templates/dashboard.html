@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    StudyUP | Dashboard
+{% endblock title %}
+
+
+{% block body %}
+
+<h1 class="mt-2">Question</h1>
+<table class="table table-hover table-condensed table-sm table-bordered">
+    <thead>
+        <tr>
+            <th style="text-align:center">id</th>
+            <th style="text-align:center">body</th>
+            <th style="text-align:center">solution_id</th>
+            <th style="text-align:center">image_file</th>
+            <th style="text-align:center">topic_no</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for question in questions %}
+    <tr>
+        <td style="text-align:center">{{question.id}}</td>
+        <td>{{question.body}}</td>
+        <td style="text-align:center">{{question.solution_id}}</td>
+        <td style="text-align:center">{{question.image_file}}</td>
+        <td style="text-align:center">{{question.topic_no}}</td>
+        <td style="text-align:center"><a class="btn btn-outline-primary" href='/discussion/{{question.id}}' target="_blank">View Question</a></td>
+        <td style="text-align:center"><a class="btn btn-outline-primary" href='/question/update/{{question.id}}' target="_blank">Edit Question</a></td>
+        <td style="text-align:center">
+            <button value={{question.id}} class="btn btn-danger btn-sm btnDeleteQuestion" data-toggle="modal" data-target="#deleteModalQuestion">Delete Question</button>
+        </td>
+    <tr>
+    {% endfor %} 
+    </tbody>
+</table>
+
+<h1 class="mt-2">User</h1>
+<table class="table table-hover table-condensed table-sm table-bordered">
+    <thead>
+        <tr>
+            <th style="text-align:center">id</th>
+            <th style="text-align:center">username</th>
+            <th style="text-align:center">email</th>
+            <th style="text-align:center">user type</th>
+            <th></th>
+              
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        
+        <td style="text-align:center">{{user.id}}</td>
+        <td style="text-align:center">{{user.username}}</td>
+        <td style="text-align:center">{{user.email}}</td>
+        
+        <td style="text-align:center">
+            
+            {% if user.user_type == 1 %}
+            <span class="badge badge-pill badge-secondary">Student</span>
+            {% else %}
+            <span class="badge badge-pill badge-primary">Moderator</span>
+            {% endif %}
+            
+            </td>
+
+        <td style="text-align:center">
+            <button value={{user.id}} class="btn btn-danger btn-sm btnDeleteUser" data-toggle="modal" data-target="#deleteModalUser">Delete Account</button>
+        </td>
+        
+    <tr>
+    {% endfor %} 
+    </tbody>
+</table>
+
+<center>
+<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Hard Reset</button>
+</center>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">WARNING: THIS WILL CLEAR THE WHOLE DATABASE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('dashboard.reset') }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModalUser" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">This will permanently delete the account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            This will also delete ALL of the account's comments
+          </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form id="userModalDeleteForm" action="" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModalQuestion" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">This will permanently delete the question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form id="questionModalDeleteForm" action="{{url_for('dashboard.reset')}}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block scripts %}
+<script>
+    
+(function() {
+'use strict';
+window.addEventListener('load', function() {  
+        
+    let btnDelete = document.getElementsByClassName('btnDeleteUser')
+
+    let i = 0;
+    for (i = 0; i < btnDelete.length; i++) {
+        btnDelete[i].addEventListener("click", (e) => {
+            
+            document.getElementById('userModalDeleteForm').action = "/delete-user/" + e.target.value
+        })
+    }
+
+    let btnDeleteQuestion = document.getElementsByClassName('btnDeleteQuestion')
+    for (i = 0; i < btnDeleteQuestion.length; i++) {
+        btnDeleteQuestion[i].addEventListener("click", (e) => {
+            
+            document.getElementById('questionModalDeleteForm').action = "/delete-question/" + e.target.value
+        })
+    }
+
+    
+}, false);
+})();
+</script>
+{% endblock scripts %}
