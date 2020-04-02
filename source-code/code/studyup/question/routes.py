@@ -21,7 +21,7 @@ Purpose of the Software: To provide a collaborative learning
 """
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from studyup import db
-from studyup.question.forms import QuestionForm
+from studyup.question.forms import QuestionForm, UpdateQuestionForm
 from studyup.models import Question, Choice
 from flask_uploads import UploadSet, IMAGES
 from datetime import datetime
@@ -205,7 +205,31 @@ def create_question():
         return redirect(url_for('question.success'))
     return render_template('question.html', form=form)
 
-@question.route('/discussion/delete_photo/<int:question_id>', methods=['GET','POST'])
+@question.route('/question/update/<int:question_id>', methods=['GET','POST'])
+def update_question(question_id):
+    form = UpdateQuestionForm()
+    question = Question.query.filter_by(id=question_id).first()
+
+    if form.validate_on_submit():
+        question.body = form.body.data
+        if form.picture.data:
+            filename = photos.save(form.picture.data)
+            file_url = photos.url(filename)
+            question.image_file = filename
+        db.session.commit()
+        flash('Question has been updated', 'success')
+        return redirect(url_for('dashboard.mod_dashboard'))
+    elif request.method == 'GET':
+    	form.body.data = question.body
+
+    if question.image_file is not None:
+        image_file = url_for('static', filename=f'img/{question.image_file}')
+    else:
+        image_file = None
+
+    return render_template('question-edit.html', form=form, question=question, image_file=image_file)
+
+@question.route('/question/delete_photo/<int:question_id>', methods=['GET','POST'])
 def delete_photo(question_id):
     question = Question.query.filter_by(id=question_id).first()
     if current_user.user_type != 2: # not a moderator 
@@ -214,23 +238,6 @@ def delete_photo(question_id):
     db.session.commit()
     flash('Photo has been deleted!', 'success')
     return redirect(url_for('dashboard.mod_dashboard'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

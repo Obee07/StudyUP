@@ -108,3 +108,8 @@ class QuestionForm(FlaskForm):
 
 
     submit = SubmitField('Create Question')
+
+class UpdateQuestionForm(FlaskForm):
+    body = StringField('Question', validators=[DataRequired()])
+    picture = FileField('Picture', validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField('Update')

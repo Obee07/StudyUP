@@ -20,7 +20,7 @@ StudyUP | Discussion
                 {% endif %}
 
                 {% if question.image_file %}
-                <div> <img src="{{ url_for('static', filename='img/' + question.image_file) }}" alt=""> </div>
+                <div> <img src="{{ url_for('static', filename='img/' + question.image_file) }}" alt="" style="max-width:100%;"> </div>
                 {% endif %}
 
             <div class="card-text">
